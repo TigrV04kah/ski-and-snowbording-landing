@@ -117,7 +117,7 @@ export default async function InstructorsPage({
               name={item.name}
               description={item.shortDescription}
               image={item.coverImage}
-              tags={[item.discipline, ...item.level]}
+              tags={[...item.discipline, ...item.level]}
               priceFrom={item.priceFrom}
               isInstructor
             />

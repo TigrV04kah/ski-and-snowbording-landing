@@ -15,7 +15,7 @@ export interface ServiceFilterInput {
 
 export function filterInstructors(items: Instructor[], filters: InstructorFilterInput): Instructor[] {
   return items.filter((item) => {
-    if (filters.discipline && item.discipline !== filters.discipline) {
+    if (filters.discipline && !item.discipline.includes(filters.discipline as Instructor["discipline"][number])) {
       return false;
     }
 

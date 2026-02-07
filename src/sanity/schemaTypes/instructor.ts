@@ -15,15 +15,34 @@ export const instructorType = defineType({
     defineField({ name: "photo", type: "image", options: { hotspot: true }, validation: (rule) => rule.required() }),
     defineField({ name: "gallery", type: "array", of: [{ type: "image" }] }),
     defineField({
-      name: "discipline",
-      type: "string",
+      name: "disciplines",
+      type: "array",
+      of: [{ type: "string" }],
       options: {
         list: [
           { title: "Ski", value: "ski" },
           { title: "Snowboard", value: "snowboard" },
         ],
       },
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          if (Array.isArray(value) && value.length > 0) {
+            return true;
+          }
+
+          const legacyDiscipline = (context.document as { discipline?: unknown } | undefined)?.discipline;
+          if (typeof legacyDiscipline === "string" && legacyDiscipline.length > 0) {
+            return true;
+          }
+
+          return "Select at least one discipline";
+        }),
+    }),
+    defineField({
+      name: "discipline",
+      type: "string",
+      hidden: true,
+      description: "Legacy field kept for backward compatibility.",
     }),
     defineField({
       name: "level",
@@ -70,8 +89,16 @@ export const instructorType = defineType({
   preview: {
     select: {
       title: "name",
-      subtitle: "discipline",
+      subtitle: "disciplines",
       media: "photo",
+    },
+    prepare({ title, subtitle, media }) {
+      const labels = Array.isArray(subtitle) ? subtitle.join(", ") : subtitle;
+      return {
+        title,
+        subtitle: labels || "No disciplines",
+        media,
+      };
     },
   },
 });

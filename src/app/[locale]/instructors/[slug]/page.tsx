@@ -66,7 +66,8 @@ export default async function InstructorDetailPage({
   }
 
   const similar = (await getInstructors(locale))
-    .filter((item) => item.slug !== instructor.slug && item.discipline === instructor.discipline)
+    .filter((item) => item.slug !== instructor.slug)
+    .filter((item) => item.discipline.some((value) => instructor.discipline.includes(value)))
     .slice(0, 3);
 
   return (
@@ -95,7 +96,11 @@ export default async function InstructorDetailPage({
             <Image src={imageUrl(instructor.coverImage, 1200, 900)} alt={instructor.name} fill className="object-cover" />
           </div>
           <div className="flex flex-wrap gap-2 text-xs text-[var(--ink-muted)]">
-            <span className="rounded-full bg-[var(--bg-soft)] px-2 py-1">{instructor.discipline}</span>
+            {instructor.discipline.map((item) => (
+              <span key={item} className="rounded-full bg-[var(--bg-soft)] px-2 py-1">
+                {item}
+              </span>
+            ))}
             {instructor.level.map((level) => (
               <span key={level} className="rounded-full bg-[var(--bg-soft)] px-2 py-1">
                 {level}
@@ -142,7 +147,7 @@ export default async function InstructorDetailPage({
                 name={item.name}
                 description={item.shortDescription}
                 image={item.coverImage}
-                tags={[item.discipline, ...item.level]}
+                tags={[...item.discipline, ...item.level]}
                 priceFrom={item.priceFrom}
                 isInstructor
               />

@@ -32,7 +32,7 @@ export interface BaseEntity {
 }
 
 export interface Instructor extends BaseEntity {
-  discipline: Discipline;
+  discipline: Discipline[];
   level: SkillLevel[];
   format: LessonFormat[];
   languages: string[];

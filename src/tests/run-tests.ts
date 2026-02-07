@@ -49,12 +49,18 @@ function testFilters() {
 
   assert.ok(snowboardBeginners.length > 0, "snowboard beginner filter should return data");
   assert.ok(
-    snowboardBeginners.every((item) => item.discipline === "snowboard" && item.level.includes("beginner")),
+    snowboardBeginners.every((item) => item.discipline.includes("snowboard") && item.level.includes("beginner")),
     "snowboard beginner filter should match all results",
   );
 
   const transferServices = filterServices(services, { serviceType: "transfer" });
   assert.equal(transferServices.length, 1, "service type filter should return one transfer item");
+
+  const skiInstructors = filterInstructors(instructors, { discipline: "ski" });
+  assert.ok(
+    skiInstructors.some((item) => item.discipline.includes("ski") && item.discipline.includes("snowboard")),
+    "dual-discipline instructor should be included in both ski and snowboard filters",
+  );
 }
 
 function run() {

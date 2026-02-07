@@ -111,7 +111,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               name={item.name}
               description={item.shortDescription}
               image={item.coverImage}
-              tags={"discipline" in item ? [item.discipline, ...item.level] : [item.serviceType, item.season ?? ""]}
+              tags={"discipline" in item ? [...item.discipline, ...item.level] : [item.serviceType, item.season ?? ""]}
               priceFrom={item.priceFrom}
               isInstructor={"discipline" in item}
             />

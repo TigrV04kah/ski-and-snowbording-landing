@@ -7,7 +7,11 @@ export const instructorsQuery = groq`
     name,
     "coverImage": photo,
     gallery,
-    discipline,
+    "discipline": select(
+      defined(disciplines) => disciplines,
+      defined(discipline) => [discipline],
+      []
+    ),
     level,
     format,
     languages,
@@ -32,7 +36,11 @@ export const instructorBySlugQuery = groq`
     name,
     "coverImage": photo,
     gallery,
-    discipline,
+    "discipline": select(
+      defined(disciplines) => disciplines,
+      defined(discipline) => [discipline],
+      []
+    ),
     level,
     format,
     languages,
