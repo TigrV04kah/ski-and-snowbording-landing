@@ -1,4 +1,4 @@
-import { Locale, locales } from "@/lib/types";
+import { Discipline, Locale, SkillLevel, locales } from "@/lib/types";
 
 export const defaultLocale: Locale = "ru";
 
@@ -38,6 +38,46 @@ export function toLocalePath(locale: Locale, pathname: string): string {
   }
 
   return cleanPath === "/" ? "/en" : `/en${cleanPath}`;
+}
+
+const disciplineLabels: Record<Locale, Record<Discipline, string>> = {
+  ru: {
+    ski: "Лыжи",
+    snowboard: "Сноуборд",
+  },
+  en: {
+    ski: "Ski",
+    snowboard: "Snowboard",
+  },
+};
+
+export function formatDiscipline(locale: Locale, value: Discipline | string): string {
+  if (value === "ski" || value === "snowboard") {
+    return disciplineLabels[locale][value];
+  }
+
+  return value;
+}
+
+const levelLabels: Record<Locale, Record<SkillLevel, string>> = {
+  ru: {
+    beginner: "Новичок",
+    intermediate: "Средний",
+    advanced: "Продвинутый",
+  },
+  en: {
+    beginner: "Beginner",
+    intermediate: "Intermediate",
+    advanced: "Advanced",
+  },
+};
+
+export function formatLevel(locale: Locale, value: SkillLevel | string): string {
+  if (value === "beginner" || value === "intermediate" || value === "advanced") {
+    return levelLabels[locale][value];
+  }
+
+  return value;
 }
 
 export const labels = {

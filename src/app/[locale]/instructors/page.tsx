@@ -4,7 +4,7 @@ import { FilterPanel } from "@/components/filter-panel";
 import { ViewTracker } from "@/components/view-tracker";
 import { getInstructors } from "@/lib/cms";
 import { filterInstructors, toStringRecord } from "@/lib/filters";
-import { isLocale, t } from "@/lib/i18n";
+import { formatDiscipline, formatLevel, isLocale, t } from "@/lib/i18n";
 import { buildMetadata, hasFilterParams } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -68,17 +68,17 @@ export default async function InstructorsPage({
             key: "discipline",
             label: copy.labels.discipline,
             options: [
-              { value: "ski", label: "Ski" },
-              { value: "snowboard", label: "Snowboard" },
+              { value: "ski", label: formatDiscipline(locale, "ski") },
+              { value: "snowboard", label: formatDiscipline(locale, "snowboard") },
             ],
           },
           {
             key: "level",
             label: copy.labels.level,
             options: [
-              { value: "beginner", label: "Beginner" },
-              { value: "intermediate", label: "Intermediate" },
-              { value: "advanced", label: "Advanced" },
+              { value: "beginner", label: formatLevel(locale, "beginner") },
+              { value: "intermediate", label: formatLevel(locale, "intermediate") },
+              { value: "advanced", label: formatLevel(locale, "advanced") },
             ],
           },
           {
@@ -117,7 +117,10 @@ export default async function InstructorsPage({
               name={item.name}
               description={item.shortDescription}
               image={item.coverImage}
-              tags={[...item.discipline, ...item.level]}
+              tags={[
+                ...item.discipline.map((value) => formatDiscipline(locale, value)),
+                ...item.level.map((value) => formatLevel(locale, value)),
+              ]}
               priceFrom={item.priceFrom}
               isInstructor
             />

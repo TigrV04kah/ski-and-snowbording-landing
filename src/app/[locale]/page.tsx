@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import { getHomeData } from "@/lib/cms";
-import { isLocale, t, toLocalePath } from "@/lib/i18n";
+import { formatDiscipline, formatLevel, isLocale, t, toLocalePath } from "@/lib/i18n";
 import { EntityCard } from "@/components/entity-card";
 import { ArticleCard } from "@/components/article-card";
 import { JsonLd } from "@/components/json-ld";
@@ -111,7 +111,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               name={item.name}
               description={item.shortDescription}
               image={item.coverImage}
-              tags={"discipline" in item ? [...item.discipline, ...item.level] : [item.serviceType, item.season ?? ""]}
+              tags={
+                "discipline" in item
+                  ? [
+                      ...item.discipline.map((value) => formatDiscipline(locale, value)),
+                      ...item.level.map((value) => formatLevel(locale, value)),
+                    ]
+                  : [item.serviceType, item.season ?? ""]
+              }
               priceFrom={item.priceFrom}
               isInstructor={"discipline" in item}
             />

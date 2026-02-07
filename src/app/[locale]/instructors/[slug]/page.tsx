@@ -8,7 +8,7 @@ import { LeadForm } from "@/components/lead-form";
 import { ReviewCarousel } from "@/components/review-carousel";
 import { ViewTracker } from "@/components/view-tracker";
 import { getInstructorBySlug, getInstructorReviews, getInstructors } from "@/lib/cms";
-import { isLocale, t } from "@/lib/i18n";
+import { formatDiscipline, formatLevel, isLocale, t } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
 import { imageUrl } from "@/lib/sanity/image";
 
@@ -98,12 +98,12 @@ export default async function InstructorDetailPage({
           <div className="flex flex-wrap gap-2 text-xs text-[var(--ink-muted)]">
             {instructor.discipline.map((item) => (
               <span key={item} className="rounded-full bg-[var(--bg-soft)] px-2 py-1">
-                {item}
+                {formatDiscipline(locale, item)}
               </span>
             ))}
             {instructor.level.map((level) => (
               <span key={level} className="rounded-full bg-[var(--bg-soft)] px-2 py-1">
-                {level}
+                {formatLevel(locale, level)}
               </span>
             ))}
             {instructor.languages.map((lang) => (
@@ -147,7 +147,10 @@ export default async function InstructorDetailPage({
                 name={item.name}
                 description={item.shortDescription}
                 image={item.coverImage}
-                tags={[...item.discipline, ...item.level]}
+                tags={[
+                  ...item.discipline.map((value) => formatDiscipline(locale, value)),
+                  ...item.level.map((value) => formatLevel(locale, value)),
+                ]}
                 priceFrom={item.priceFrom}
                 isInstructor
               />
