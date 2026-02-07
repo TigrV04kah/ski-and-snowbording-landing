@@ -16,6 +16,8 @@ export const instructorType = defineType({
     defineField({ name: "gallery", type: "array", of: [{ type: "image" }] }),
     defineField({
       name: "disciplines",
+      title: "Disciplines (multi-select)",
+      description: "Choose one or more disciplines",
       type: "array",
       of: [{ type: "string" }],
       options: {
@@ -23,6 +25,7 @@ export const instructorType = defineType({
           { title: "Ski", value: "ski" },
           { title: "Snowboard", value: "snowboard" },
         ],
+        layout: "tags",
       },
       validation: (rule) =>
         rule.custom((value, context) => {
