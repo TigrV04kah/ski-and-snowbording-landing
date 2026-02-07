@@ -7,14 +7,14 @@ const settingsByLocale: Record<Locale, SiteSettings> = {
     description:
       "Проверенные инструкторы и сервисы в Гудаури: занятия, аренда снаряжения, фото-сопровождение и другие услуги.",
     partnerCtaEmail: "partners@mygudauri.com",
-    contactPhone: "+995599123456",
-    contactTelegram: "https://t.me/mygudauri",
-    contactWhatsapp: "https://wa.me/995599123456",
+    contactPhone: "+79775376084",
+    contactTelegram: "https://t.me/+79775376084",
+    contactWhatsapp: "https://wa.me/79775376084",
     seoTitleDefault: "My Gudauri — инструкторы и услуги в Гудаури",
     seoDescriptionDefault:
       "Найдите инструктора по лыжам и сноуборду, а также локальные сервисы в Гудаури.",
     socialLinks: [
-      { label: "Telegram", url: "https://t.me/mygudauri" },
+      { label: "Telegram", url: "https://t.me/+79775376084" },
       { label: "Instagram", url: "https://instagram.com/mygudauri" },
     ],
   },
@@ -24,14 +24,14 @@ const settingsByLocale: Record<Locale, SiteSettings> = {
     description:
       "Verified ski and snowboard instructors plus trusted local services in Gudauri.",
     partnerCtaEmail: "partners@mygudauri.com",
-    contactPhone: "+995599123456",
-    contactTelegram: "https://t.me/mygudauri",
-    contactWhatsapp: "https://wa.me/995599123456",
+    contactPhone: "+79775376084",
+    contactTelegram: "https://t.me/+79775376084",
+    contactWhatsapp: "https://wa.me/79775376084",
     seoTitleDefault: "My Gudauri — instructors and services in Gudauri",
     seoDescriptionDefault:
       "Find ski and snowboard instructors and book local services in Gudauri.",
     socialLinks: [
-      { label: "Telegram", url: "https://t.me/mygudauri" },
+      { label: "Telegram", url: "https://t.me/+79775376084" },
       { label: "Instagram", url: "https://instagram.com/mygudauri" },
     ],
   },

@@ -23,9 +23,11 @@ export default async function LocaleLayout({
 
   return (
     <>
-      <SiteHeader locale={locale} />
-      <main className="mx-auto w-full max-w-6xl px-4 pt-8 md:px-6 md:pt-10">{children}</main>
-      <SiteFooter locale={locale} />
+      <div className="flex min-h-screen flex-col">
+        <SiteHeader locale={locale} />
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-8 md:px-6 md:pt-10">{children}</main>
+        <SiteFooter locale={locale} />
+      </div>
       <CookieBanner locale={locale} />
     </>
   );

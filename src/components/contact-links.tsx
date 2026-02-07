@@ -3,6 +3,7 @@
 import { ContactLinks as ContactLinksType, Locale } from "@/lib/types";
 import { t } from "@/lib/i18n";
 import { trackEvent } from "@/lib/tracking";
+import { CONTACT_LINKS, CONTACT_PHONE_DISPLAY } from "@/lib/contact-config";
 
 function ContactButton({
   href,
@@ -28,18 +29,13 @@ function ContactButton({
 
 export function ContactLinks({ locale, contacts }: { locale: Locale; contacts: ContactLinksType }) {
   const copy = t(locale);
+  void contacts;
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {contacts.whatsapp ? (
-        <ContactButton href={contacts.whatsapp} label={`${copy.contactLabel}: WhatsApp`} event="whatsapp" />
-      ) : null}
-      {contacts.telegram ? (
-        <ContactButton href={contacts.telegram} label={`${copy.contactLabel}: Telegram`} event="telegram" />
-      ) : null}
-      {contacts.phone ? (
-        <ContactButton href={`tel:${contacts.phone}`} label={`${copy.contactLabel}: ${contacts.phone}`} event="phone" />
-      ) : null}
+      <ContactButton href={CONTACT_LINKS.whatsapp} label={`${copy.contactLabel}: WhatsApp`} event="whatsapp" />
+      <ContactButton href={CONTACT_LINKS.telegram} label={`${copy.contactLabel}: Telegram`} event="telegram" />
+      <ContactButton href={CONTACT_LINKS.phone} label={`${copy.contactLabel}: ${CONTACT_PHONE_DISPLAY}`} event="phone" />
     </div>
   );
 }
