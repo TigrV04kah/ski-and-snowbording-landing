@@ -11,6 +11,8 @@ import { isLocale, t } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
 import { imageUrl } from "@/lib/sanity/image";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const [ru, en] = await Promise.all([getServices("ru"), getServices("en")]);
   const slugs = new Set([...ru.map((item) => item.slug), ...en.map((item) => item.slug)]);
