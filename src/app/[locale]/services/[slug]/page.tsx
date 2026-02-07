@@ -62,6 +62,12 @@ export default async function ServiceDetailPage({
     .filter((item) => item.slug !== service.slug && item.serviceType === service.serviceType)
     .slice(0, 3);
 
+  const normalizedShortDescription = service.shortDescription.trim();
+  const normalizedFullDescription = service.fullDescription.trim();
+  const showFullDescription =
+    normalizedFullDescription.length > 0 &&
+    normalizedFullDescription !== normalizedShortDescription;
+
   return (
     <div className="space-y-8 pb-12">
       <JsonLd
@@ -95,7 +101,9 @@ export default async function ServiceDetailPage({
         <div className="space-y-4">
           <h1 className="font-serif text-4xl leading-none">{service.name}</h1>
           <p className="text-sm text-[var(--ink-muted)]">{service.shortDescription}</p>
-          <p className="text-sm text-[var(--ink-muted)]">{service.fullDescription}</p>
+          {showFullDescription ? (
+            <p className="text-sm text-[var(--ink-muted)]">{service.fullDescription}</p>
+          ) : null}
           <p className="text-sm font-semibold text-[var(--ink)]">
             {copy.labels.updatedAt}: {new Date(service.updatedAt).toLocaleDateString()}
           </p>
