@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { FormEvent, useMemo, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Locale } from "@/lib/types";
 import { t } from "@/lib/i18n";
@@ -25,6 +25,7 @@ export function FilterPanel({ locale, fields }: FilterPanelProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const values = useMemo(() => {
     const output: Record<string, string> = {};
@@ -50,9 +51,20 @@ export function FilterPanel({ locale, fields }: FilterPanelProps) {
     router.push(query ? `${pathname}?${query}` : pathname);
   }
 
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    apply(new FormData(event.currentTarget));
+  }
+
+  function handleReset() {
+    formRef.current?.reset();
+    router.push(pathname);
+  }
+
   return (
     <form
-      action={apply}
+      ref={formRef}
+      onSubmit={handleSubmit}
       className="rounded-3xl border border-[var(--line)] bg-white p-4 md:p-5"
     >
       <div className="mb-3 text-sm font-semibold">{copy.filtersTitle}</div>
@@ -97,7 +109,7 @@ export function FilterPanel({ locale, fields }: FilterPanelProps) {
         </button>
         <button
           type="button"
-          onClick={() => router.push(pathname)}
+          onClick={handleReset}
           className="rounded-full border border-[var(--line)] px-4 py-2 text-sm"
         >
           {copy.clearFilters}
