@@ -76,10 +76,21 @@ export function SiteHeader({
         </Link>
 
         <nav className="hidden items-center gap-7 text-base text-[#1e2023] lg:flex">
-          <div className="relative" ref={sectionsMenuRef}>
+          <div
+            className="relative"
+            ref={sectionsMenuRef}
+            onMouseEnter={() => setIsSectionsOpen(true)}
+            onMouseLeave={() => setIsSectionsOpen(false)}
+            onFocusCapture={() => setIsSectionsOpen(true)}
+            onBlurCapture={(event) => {
+              const nextFocused = event.relatedTarget as Node | null;
+              if (!event.currentTarget.contains(nextFocused)) {
+                setIsSectionsOpen(false);
+              }
+            }}
+          >
             <button
               type="button"
-              onClick={() => setIsSectionsOpen((current) => !current)}
               className="inline-flex items-center gap-1 hover:opacity-70"
               aria-haspopup="menu"
               aria-expanded={isSectionsOpen}
@@ -98,7 +109,7 @@ export function SiteHeader({
             {isSectionsOpen ? (
               <div
                 id="sections-menu"
-                className="absolute left-0 top-full z-50 mt-2 min-w-64 overflow-hidden rounded-2xl border border-[var(--line)] bg-white p-2 shadow-[0_18px_45px_-22px_rgba(0,0,0,0.35)]"
+                className="absolute left-0 top-full z-50 mt-0 min-w-64 overflow-hidden rounded-2xl border border-[var(--line)] bg-white p-2 shadow-[0_18px_45px_-22px_rgba(0,0,0,0.35)]"
                 role="menu"
               >
                 {sectionLinks.map((item) => {
