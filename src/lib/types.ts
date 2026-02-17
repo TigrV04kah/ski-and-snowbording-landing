@@ -7,6 +7,8 @@ export type InquiryType = "instructor" | "service";
 export type Discipline = "ski" | "snowboard";
 export type SkillLevel = "beginner" | "intermediate" | "advanced";
 export type LessonFormat = "individual" | "group";
+export type PortableContentBlock = { _type: string; [key: string]: unknown };
+export type PortableContent = PortableContentBlock[];
 export type CategoryKind =
   | "instructors"
   | "tours"
@@ -30,9 +32,14 @@ export interface BaseEntity {
   gallery?: unknown[];
   shortDescription: string;
   fullDescription: string;
+  shortDescriptionRich?: PortableContent;
+  fullDescriptionRich?: PortableContent;
   included?: string;
+  includedRich?: PortableContent;
   notIncluded?: string;
+  notIncludedRich?: PortableContent;
   conditions?: string;
+  conditionsRich?: PortableContent;
   contacts: ContactLinks;
   isFeatured?: boolean;
   isPublished?: boolean;
@@ -60,7 +67,7 @@ export interface Article {
   slug: string;
   title: string;
   excerpt: string;
-  content: string | Array<{ _type: string; [key: string]: unknown }>;
+  content: string | PortableContent;
   coverImage?: unknown;
   category: string;
   seoTitle?: string;
@@ -76,6 +83,7 @@ export interface Review {
   author: string;
   rating: number;
   text: string;
+  textRich?: PortableContent;
   date: string;
   verified?: boolean;
 }
@@ -87,7 +95,7 @@ export interface CategoryPage {
   title: string;
   description: string;
   tags: string[];
-  content?: string | Array<{ _type: string; [key: string]: unknown }>;
+  content?: string | PortableContent;
   updatedAt: string;
   isPublished?: boolean;
 }

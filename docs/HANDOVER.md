@@ -3,9 +3,11 @@
 ## 1. How to add an instructor
 1. Open `/studio`.
 2. Create `Instructor`.
-3. Fill required fields: name, slug, photo, discipline, level, format, languages, short/full RU+EN, contacts.
-4. Set `isPublished = true`.
-5. Optionally set `isFeatured = true` to show on homepage.
+3. Fill required fields: name, slug, photo, discipline, level, format, languages, `Short Bio` and `Full Description` (RU+EN), contacts.
+4. Text blocks use rich editor (headings, lists, links, images, bold/italic/underline).
+5. Optional fields `Included / Not Included / Conditions` are also rich text.
+6. Set `isPublished = true`.
+7. Optionally set `isFeatured = true` to show on homepage.
 
 ## 2. How to update price
 1. Open target Instructor/Service in Studio.

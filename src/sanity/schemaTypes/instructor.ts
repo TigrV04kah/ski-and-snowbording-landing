@@ -1,5 +1,33 @@
 import { defineField, defineType } from "sanity";
 
+function hasLocalizedPortableText(value: unknown): boolean {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const localized = value as { ru?: unknown; en?: unknown };
+  return (
+    Array.isArray(localized.ru) &&
+    localized.ru.length > 0 &&
+    Array.isArray(localized.en) &&
+    localized.en.length > 0
+  );
+}
+
+function hasLocalizedLegacyText(value: unknown): boolean {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const localized = value as { ru?: unknown; en?: unknown };
+  return (
+    typeof localized.ru === "string" &&
+    localized.ru.trim().length > 0 &&
+    typeof localized.en === "string" &&
+    localized.en.trim().length > 0
+  );
+}
+
 export const instructorType = defineType({
   name: "instructor",
   title: "Instructor",
@@ -80,11 +108,72 @@ export const instructorType = defineType({
     }),
     defineField({ name: "experienceYears", type: "number", validation: (rule) => rule.required().min(0) }),
     defineField({ name: "priceFrom", type: "number" }),
-    defineField({ name: "shortBio", type: "localizedText", validation: (rule) => rule.required() }),
-    defineField({ name: "fullDescription", type: "localizedText", validation: (rule) => rule.required() }),
-    defineField({ name: "included", type: "localizedText" }),
-    defineField({ name: "notIncluded", type: "localizedText" }),
-    defineField({ name: "conditions", type: "localizedText" }),
+    defineField({
+      name: "shortBioRich",
+      title: "Short Bio",
+      type: "localizedPortableText",
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const legacyValue = (context.document as { shortBio?: unknown } | undefined)?.shortBio;
+          if (hasLocalizedPortableText(value) || hasLocalizedLegacyText(legacyValue)) {
+            return true;
+          }
+
+          return "Fill Short Bio in both RU and EN.";
+        }),
+    }),
+    defineField({
+      name: "fullDescriptionRich",
+      title: "Full Description",
+      type: "localizedPortableText",
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const legacyValue = (context.document as { fullDescription?: unknown } | undefined)?.fullDescription;
+          if (hasLocalizedPortableText(value) || hasLocalizedLegacyText(legacyValue)) {
+            return true;
+          }
+
+          return "Fill Full Description in both RU and EN.";
+        }),
+    }),
+    defineField({ name: "includedRich", title: "Included", type: "localizedPortableText" }),
+    defineField({ name: "notIncludedRich", title: "Not Included", type: "localizedPortableText" }),
+    defineField({ name: "conditionsRich", title: "Conditions", type: "localizedPortableText" }),
+    defineField({
+      name: "shortBio",
+      title: "Short Bio (legacy)",
+      type: "localizedText",
+      hidden: true,
+      description: "Legacy plain-text field. Kept for backward compatibility.",
+    }),
+    defineField({
+      name: "fullDescription",
+      title: "Full Description (legacy)",
+      type: "localizedText",
+      hidden: true,
+      description: "Legacy plain-text field. Kept for backward compatibility.",
+    }),
+    defineField({
+      name: "included",
+      title: "Included (legacy)",
+      type: "localizedText",
+      hidden: true,
+      description: "Legacy plain-text field. Kept for backward compatibility.",
+    }),
+    defineField({
+      name: "notIncluded",
+      title: "Not Included (legacy)",
+      type: "localizedText",
+      hidden: true,
+      description: "Legacy plain-text field. Kept for backward compatibility.",
+    }),
+    defineField({
+      name: "conditions",
+      title: "Conditions (legacy)",
+      type: "localizedText",
+      hidden: true,
+      description: "Legacy plain-text field. Kept for backward compatibility.",
+    }),
     defineField({ name: "contacts", type: "contactLinks", validation: (rule) => rule.required() }),
     defineField({ name: "isFeatured", type: "boolean", initialValue: false }),
     defineField({ name: "isPublished", type: "boolean", initialValue: false }),

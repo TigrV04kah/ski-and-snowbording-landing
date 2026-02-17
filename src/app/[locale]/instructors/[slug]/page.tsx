@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ArticleRichContent } from "@/components/article-rich-content";
 import { ContactLinks } from "@/components/contact-links";
 import { EntityCard } from "@/components/entity-card";
 import { JsonLd } from "@/components/json-ld";
@@ -69,6 +70,11 @@ export default async function InstructorDetailPage({
     .filter((item) => item.slug !== instructor.slug)
     .filter((item) => item.discipline.some((value) => instructor.discipline.includes(value)))
     .slice(0, 3);
+  const normalizedShortDescription = instructor.shortDescription.trim();
+  const normalizedFullDescription = instructor.fullDescription.trim();
+  const showFullDescription =
+    normalizedFullDescription.length > 0 &&
+    normalizedFullDescription !== normalizedShortDescription;
 
   return (
     <div className="space-y-8 pb-12">
@@ -116,8 +122,36 @@ export default async function InstructorDetailPage({
 
         <div className="space-y-4">
           <h1 className="font-serif text-4xl leading-none">{instructor.name}</h1>
-          <p className="text-sm text-[var(--ink-muted)]">{instructor.shortDescription}</p>
-          <p className="text-sm text-[var(--ink-muted)]">{instructor.fullDescription}</p>
+          <ArticleRichContent
+            content={instructor.shortDescriptionRich ?? instructor.shortDescription}
+          />
+          {showFullDescription ? (
+            <ArticleRichContent
+              content={instructor.fullDescriptionRich ?? instructor.fullDescription}
+            />
+          ) : null}
+          {instructor.included || instructor.includedRich ? (
+            <div className="space-y-2 rounded-2xl bg-[var(--bg-soft)] p-4">
+              <p className="text-sm font-semibold text-[var(--ink)]">{copy.labels.included}</p>
+              <ArticleRichContent content={instructor.includedRich ?? instructor.included ?? ""} />
+            </div>
+          ) : null}
+          {instructor.notIncluded || instructor.notIncludedRich ? (
+            <div className="space-y-2 rounded-2xl bg-[var(--bg-soft)] p-4">
+              <p className="text-sm font-semibold text-[var(--ink)]">{copy.labels.notIncluded}</p>
+              <ArticleRichContent
+                content={instructor.notIncludedRich ?? instructor.notIncluded ?? ""}
+              />
+            </div>
+          ) : null}
+          {instructor.conditions || instructor.conditionsRich ? (
+            <div className="space-y-2 rounded-2xl bg-[var(--bg-soft)] p-4">
+              <p className="text-sm font-semibold text-[var(--ink)]">{copy.labels.conditions}</p>
+              <ArticleRichContent
+                content={instructor.conditionsRich ?? instructor.conditions ?? ""}
+              />
+            </div>
+          ) : null}
           <p className="text-sm font-semibold text-[var(--ink)]">
             {copy.labels.updatedAt}: {new Date(instructor.updatedAt).toLocaleDateString()}
           </p>

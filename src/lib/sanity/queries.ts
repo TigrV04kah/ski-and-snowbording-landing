@@ -17,11 +17,41 @@ export const instructorsQuery = groq`
     languages,
     experienceYears,
     priceFrom,
-    "shortDescription": coalesce(shortBio[$locale], shortBio.ru, shortBio.en),
-    "fullDescription": coalesce(fullDescription[$locale], fullDescription.ru, fullDescription.en),
-    "included": coalesce(included[$locale], included.ru, included.en),
-    "notIncluded": coalesce(notIncluded[$locale], notIncluded.ru, notIncluded.en),
-    "conditions": coalesce(conditions[$locale], conditions.ru, conditions.en),
+    "shortDescription": coalesce(
+      pt::text(coalesce(shortBioRich[$locale], shortBioRich.ru, shortBioRich.en)),
+      shortBio[$locale],
+      shortBio.ru,
+      shortBio.en
+    ),
+    "fullDescription": coalesce(
+      pt::text(coalesce(fullDescriptionRich[$locale], fullDescriptionRich.ru, fullDescriptionRich.en)),
+      fullDescription[$locale],
+      fullDescription.ru,
+      fullDescription.en
+    ),
+    "included": coalesce(
+      pt::text(coalesce(includedRich[$locale], includedRich.ru, includedRich.en)),
+      included[$locale],
+      included.ru,
+      included.en
+    ),
+    "notIncluded": coalesce(
+      pt::text(coalesce(notIncludedRich[$locale], notIncludedRich.ru, notIncludedRich.en)),
+      notIncluded[$locale],
+      notIncluded.ru,
+      notIncluded.en
+    ),
+    "conditions": coalesce(
+      pt::text(coalesce(conditionsRich[$locale], conditionsRich.ru, conditionsRich.en)),
+      conditions[$locale],
+      conditions.ru,
+      conditions.en
+    ),
+    "shortDescriptionRich": coalesce(shortBioRich[$locale], shortBioRich.ru, shortBioRich.en),
+    "fullDescriptionRich": coalesce(fullDescriptionRich[$locale], fullDescriptionRich.ru, fullDescriptionRich.en),
+    "includedRich": coalesce(includedRich[$locale], includedRich.ru, includedRich.en),
+    "notIncludedRich": coalesce(notIncludedRich[$locale], notIncludedRich.ru, notIncludedRich.en),
+    "conditionsRich": coalesce(conditionsRich[$locale], conditionsRich.ru, conditionsRich.en),
     contacts,
     isFeatured,
     isPublished,
@@ -46,11 +76,41 @@ export const instructorBySlugQuery = groq`
     languages,
     experienceYears,
     priceFrom,
-    "shortDescription": coalesce(shortBio[$locale], shortBio.ru, shortBio.en),
-    "fullDescription": coalesce(fullDescription[$locale], fullDescription.ru, fullDescription.en),
-    "included": coalesce(included[$locale], included.ru, included.en),
-    "notIncluded": coalesce(notIncluded[$locale], notIncluded.ru, notIncluded.en),
-    "conditions": coalesce(conditions[$locale], conditions.ru, conditions.en),
+    "shortDescription": coalesce(
+      pt::text(coalesce(shortBioRich[$locale], shortBioRich.ru, shortBioRich.en)),
+      shortBio[$locale],
+      shortBio.ru,
+      shortBio.en
+    ),
+    "fullDescription": coalesce(
+      pt::text(coalesce(fullDescriptionRich[$locale], fullDescriptionRich.ru, fullDescriptionRich.en)),
+      fullDescription[$locale],
+      fullDescription.ru,
+      fullDescription.en
+    ),
+    "included": coalesce(
+      pt::text(coalesce(includedRich[$locale], includedRich.ru, includedRich.en)),
+      included[$locale],
+      included.ru,
+      included.en
+    ),
+    "notIncluded": coalesce(
+      pt::text(coalesce(notIncludedRich[$locale], notIncludedRich.ru, notIncludedRich.en)),
+      notIncluded[$locale],
+      notIncluded.ru,
+      notIncluded.en
+    ),
+    "conditions": coalesce(
+      pt::text(coalesce(conditionsRich[$locale], conditionsRich.ru, conditionsRich.en)),
+      conditions[$locale],
+      conditions.ru,
+      conditions.en
+    ),
+    "shortDescriptionRich": coalesce(shortBioRich[$locale], shortBioRich.ru, shortBioRich.en),
+    "fullDescriptionRich": coalesce(fullDescriptionRich[$locale], fullDescriptionRich.ru, fullDescriptionRich.en),
+    "includedRich": coalesce(includedRich[$locale], includedRich.ru, includedRich.en),
+    "notIncludedRich": coalesce(notIncludedRich[$locale], notIncludedRich.ru, notIncludedRich.en),
+    "conditionsRich": coalesce(conditionsRich[$locale], conditionsRich.ru, conditionsRich.en),
     contacts,
     isFeatured,
     isPublished,
@@ -69,10 +129,34 @@ export const servicesQuery = groq`
     duration,
     season,
     priceFrom,
-    "shortDescription": coalesce(description[$locale], description.ru, description.en),
-    "fullDescription": coalesce(description[$locale], description.ru, description.en),
-    "included": coalesce(included[$locale], included.ru, included.en),
-    "conditions": coalesce(conditions[$locale], conditions.ru, conditions.en),
+    "shortDescription": coalesce(
+      pt::text(coalesce(descriptionRich[$locale], descriptionRich.ru, descriptionRich.en)),
+      description[$locale],
+      description.ru,
+      description.en
+    ),
+    "fullDescription": coalesce(
+      pt::text(coalesce(descriptionRich[$locale], descriptionRich.ru, descriptionRich.en)),
+      description[$locale],
+      description.ru,
+      description.en
+    ),
+    "included": coalesce(
+      pt::text(coalesce(includedRich[$locale], includedRich.ru, includedRich.en)),
+      included[$locale],
+      included.ru,
+      included.en
+    ),
+    "conditions": coalesce(
+      pt::text(coalesce(conditionsRich[$locale], conditionsRich.ru, conditionsRich.en)),
+      conditions[$locale],
+      conditions.ru,
+      conditions.en
+    ),
+    "shortDescriptionRich": coalesce(descriptionRich[$locale], descriptionRich.ru, descriptionRich.en),
+    "fullDescriptionRich": coalesce(descriptionRich[$locale], descriptionRich.ru, descriptionRich.en),
+    "includedRich": coalesce(includedRich[$locale], includedRich.ru, includedRich.en),
+    "conditionsRich": coalesce(conditionsRich[$locale], conditionsRich.ru, conditionsRich.en),
     contacts,
     isFeatured,
     isPublished,
@@ -91,10 +175,34 @@ export const serviceBySlugQuery = groq`
     duration,
     season,
     priceFrom,
-    "shortDescription": coalesce(description[$locale], description.ru, description.en),
-    "fullDescription": coalesce(description[$locale], description.ru, description.en),
-    "included": coalesce(included[$locale], included.ru, included.en),
-    "conditions": coalesce(conditions[$locale], conditions.ru, conditions.en),
+    "shortDescription": coalesce(
+      pt::text(coalesce(descriptionRich[$locale], descriptionRich.ru, descriptionRich.en)),
+      description[$locale],
+      description.ru,
+      description.en
+    ),
+    "fullDescription": coalesce(
+      pt::text(coalesce(descriptionRich[$locale], descriptionRich.ru, descriptionRich.en)),
+      description[$locale],
+      description.ru,
+      description.en
+    ),
+    "included": coalesce(
+      pt::text(coalesce(includedRich[$locale], includedRich.ru, includedRich.en)),
+      included[$locale],
+      included.ru,
+      included.en
+    ),
+    "conditions": coalesce(
+      pt::text(coalesce(conditionsRich[$locale], conditionsRich.ru, conditionsRich.en)),
+      conditions[$locale],
+      conditions.ru,
+      conditions.en
+    ),
+    "shortDescriptionRich": coalesce(descriptionRich[$locale], descriptionRich.ru, descriptionRich.en),
+    "fullDescriptionRich": coalesce(descriptionRich[$locale], descriptionRich.ru, descriptionRich.en),
+    "includedRich": coalesce(includedRich[$locale], includedRich.ru, includedRich.en),
+    "conditionsRich": coalesce(conditionsRich[$locale], conditionsRich.ru, conditionsRich.en),
     contacts,
     isFeatured,
     isPublished,
@@ -190,7 +298,13 @@ export const reviewsByInstructorSlugQuery = groq`
     "instructorSlug": instructor->slug.current,
     author,
     rating,
-    "text": coalesce(text[$locale], text.ru, text.en),
+    "text": coalesce(
+      pt::text(coalesce(textRich[$locale], textRich.ru, textRich.en)),
+      text[$locale],
+      text.ru,
+      text.en
+    ),
+    "textRich": coalesce(textRich[$locale], textRich.ru, textRich.en),
     date,
     verified
   }

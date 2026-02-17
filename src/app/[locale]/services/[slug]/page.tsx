@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ArticleRichContent } from "@/components/article-rich-content";
 import { ContactLinks } from "@/components/contact-links";
 import { EntityCard } from "@/components/entity-card";
 import { JsonLd } from "@/components/json-ld";
@@ -100,9 +101,9 @@ export default async function ServiceDetailPage({
 
         <div className="space-y-4">
           <h1 className="font-serif text-4xl leading-none">{service.name}</h1>
-          <p className="text-sm text-[var(--ink-muted)]">{service.shortDescription}</p>
+          <ArticleRichContent content={service.shortDescriptionRich ?? service.shortDescription} />
           {showFullDescription ? (
-            <p className="text-sm text-[var(--ink-muted)]">{service.fullDescription}</p>
+            <ArticleRichContent content={service.fullDescriptionRich ?? service.fullDescription} />
           ) : null}
           <p className="text-sm font-semibold text-[var(--ink)]">
             {copy.labels.updatedAt}: {new Date(service.updatedAt).toLocaleDateString()}
@@ -119,15 +120,17 @@ export default async function ServiceDetailPage({
       <section className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-4 rounded-3xl border border-[var(--line)] bg-white p-6">
           <h2 className="font-serif text-3xl">{copy.labels.conditions}</h2>
-          {service.included ? (
-            <p className="text-sm text-[var(--ink-muted)]">
-              <strong className="text-[var(--ink)]">{copy.labels.included}:</strong> {service.included}
-            </p>
+          {service.included || service.includedRich ? (
+            <div className="space-y-2 rounded-2xl bg-[var(--bg-soft)] p-4">
+              <p className="text-sm font-semibold text-[var(--ink)]">{copy.labels.included}</p>
+              <ArticleRichContent content={service.includedRich ?? service.included ?? ""} />
+            </div>
           ) : null}
-          {service.conditions ? (
-            <p className="text-sm text-[var(--ink-muted)]">
-              <strong className="text-[var(--ink)]">{copy.labels.conditions}:</strong> {service.conditions}
-            </p>
+          {service.conditions || service.conditionsRich ? (
+            <div className="space-y-2 rounded-2xl bg-[var(--bg-soft)] p-4">
+              <p className="text-sm font-semibold text-[var(--ink)]">{copy.labels.conditions}</p>
+              <ArticleRichContent content={service.conditionsRich ?? service.conditions ?? ""} />
+            </div>
           ) : null}
         </div>
         <LeadForm locale={locale} inquiryType="service" entitySlug={service.slug} />

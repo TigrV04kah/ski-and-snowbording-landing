@@ -45,6 +45,7 @@ const portableTextMembers = [
       { title: "Normal", value: "normal" },
       { title: "Heading 2", value: "h2" },
       { title: "Heading 3", value: "h3" },
+      { title: "Heading 4", value: "h4" },
       { title: "Quote", value: "blockquote" },
     ],
     lists: [
@@ -55,6 +56,9 @@ const portableTextMembers = [
       decorators: [
         { title: "Bold", value: "strong" },
         { title: "Italic", value: "em" },
+        { title: "Underline", value: "underline" },
+        { title: "Strike", value: "strike-through" },
+        { title: "Code", value: "code" },
       ],
       annotations: [
         defineArrayMember({
@@ -66,6 +70,11 @@ const portableTextMembers = [
               name: "href",
               type: "url",
               validation: (rule) => rule.required().uri({ scheme: ["http", "https", "mailto", "tel"] }),
+            }),
+            defineField({
+              name: "openInNewTab",
+              type: "boolean",
+              initialValue: true,
             }),
           ],
         }),
@@ -80,6 +89,12 @@ const portableTextMembers = [
         name: "alt",
         type: "string",
         title: "Alt text",
+        validation: (rule) => rule.required(),
+      }),
+      defineField({
+        name: "caption",
+        type: "string",
+        title: "Caption",
       }),
     ],
   }),
