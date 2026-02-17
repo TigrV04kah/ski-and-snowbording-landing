@@ -2,18 +2,61 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { t, toLocalePath } from "@/lib/i18n";
 import { Locale } from "@/lib/types";
 import { LanguageSwitcher } from "@/components/language-switcher";
 
-export function SiteHeader({ locale }: { locale: Locale }) {
+interface HeaderSectionLink {
+  slug: string;
+  title: string;
+}
+
+export function SiteHeader({
+  locale,
+  sectionLinks,
+}: {
+  locale: Locale;
+  sectionLinks: HeaderSectionLink[];
+}) {
   const pathname = usePathname() ?? "";
   const copy = t(locale);
   const homePath = toLocalePath(locale, "/");
   const isHome = pathname === "/ru" || pathname === "/en" || pathname === "/";
-  const sectionsHref = `${homePath}#sections`;
   const aboutHref = `${homePath}#about-gudauri`;
   const supportHref = `${homePath}#support`;
+  const [isSectionsOpen, setIsSectionsOpen] = useState(false);
+  const sectionsMenuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isSectionsOpen) {
+      return;
+    }
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (!sectionsMenuRef.current) {
+        return;
+      }
+
+      if (!sectionsMenuRef.current.contains(event.target as Node)) {
+        setIsSectionsOpen(false);
+      }
+    };
+
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsSectionsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onEscape);
+    };
+  }, [isSectionsOpen]);
 
   return (
     <header
@@ -31,14 +74,62 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <span className="block">My</span>
           <span className="block">Gudauri</span>
         </Link>
+
         <nav className="hidden items-center gap-7 text-base text-[#1e2023] lg:flex">
-          <Link href={sectionsHref} className="hover:opacity-70">
-            {copy.nav.sections} <span className="text-xs align-middle">▼</span>
-          </Link>
+          <div className="relative" ref={sectionsMenuRef}>
+            <button
+              type="button"
+              onClick={() => setIsSectionsOpen((current) => !current)}
+              className="inline-flex items-center gap-1 hover:opacity-70"
+              aria-haspopup="menu"
+              aria-expanded={isSectionsOpen}
+              aria-controls="sections-menu"
+            >
+              <span>{copy.nav.sections}</span>
+              <span
+                className={`text-xs align-middle transition-transform ${
+                  isSectionsOpen ? "rotate-180" : ""
+                }`}
+              >
+                ▼
+              </span>
+            </button>
+
+            {isSectionsOpen ? (
+              <div
+                id="sections-menu"
+                className="absolute left-0 top-full z-50 mt-2 min-w-64 overflow-hidden rounded-2xl border border-[var(--line)] bg-white p-2 shadow-[0_18px_45px_-22px_rgba(0,0,0,0.35)]"
+                role="menu"
+              >
+                {sectionLinks.map((item) => {
+                  const href = toLocalePath(locale, `/categories/${item.slug}`);
+                  const isActive = pathname === href;
+
+                  return (
+                    <Link
+                      key={item.slug}
+                      href={href}
+                      role="menuitem"
+                      className={`block rounded-xl px-3 py-2 text-sm transition ${
+                        isActive
+                          ? "bg-[var(--ink)] text-white"
+                          : "text-[var(--ink)] hover:bg-[var(--bg-soft)]"
+                      }`}
+                      onClick={() => setIsSectionsOpen(false)}
+                    >
+                      {item.title}
+                    </Link>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
+
           <Link href={toLocalePath(locale, "/articles")}>{copy.nav.articles}</Link>
           <Link href={aboutHref}>{copy.nav.about}</Link>
           <Link href={supportHref}>{copy.nav.support}</Link>
         </nav>
+
         <div className="flex items-center gap-2">
           <LanguageSwitcher locale={locale} />
           <Link
