@@ -7,7 +7,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
   const copy = t(locale);
 
   return (
-    <footer className="mt-auto border-t border-[var(--line)] bg-white/80">
+    <footer id="support" className="mt-auto border-t border-[var(--line)] bg-white/80">
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-10 md:grid-cols-3 md:px-6">
         <div>
           <p className="font-serif text-lg">My Gudauri</p>

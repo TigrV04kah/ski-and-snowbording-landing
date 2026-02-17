@@ -84,9 +84,13 @@ export const labels = {
   ru: {
     nav: {
       home: "Главная",
+      sections: "Разделы",
       instructors: "Инструкторы",
       services: "Услуги",
       articles: "Статьи",
+      about: "О Гудаури",
+      support: "Поддержка",
+      offerService: "Предложить услугу",
       partners: "Партнерам",
     },
     heroTitle: "My Gudauri — услуги и активности на курорте",
@@ -173,9 +177,13 @@ export const labels = {
   en: {
     nav: {
       home: "Home",
+      sections: "Sections",
       instructors: "Instructors",
       services: "Services",
       articles: "Articles",
+      about: "About Gudauri",
+      support: "Support",
+      offerService: "List your service",
       partners: "Partners",
     },
     heroTitle: "My Gudauri — services and activities at the resort",
