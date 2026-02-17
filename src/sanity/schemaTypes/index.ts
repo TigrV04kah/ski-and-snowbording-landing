@@ -1,4 +1,5 @@
 import { articleType } from "@/sanity/schemaTypes/article";
+import { categoryPageType } from "@/sanity/schemaTypes/categoryPage";
 import { contactLinksType, socialLinkType } from "@/sanity/schemaTypes/common";
 import { instructorType } from "@/sanity/schemaTypes/instructor";
 import { localizedPortableText, localizedString, localizedText } from "@/sanity/schemaTypes/localizedFields";
@@ -15,6 +16,7 @@ export const schemaTypes = [
   instructorType,
   serviceType,
   articleType,
+  categoryPageType,
   reviewType,
   siteSettingsType,
 ];

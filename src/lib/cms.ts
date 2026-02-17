@@ -1,6 +1,8 @@
 import {
   articleBySlugQuery,
   articlesQuery,
+  categoryPageBySlugQuery,
+  categoryPagesQuery,
   instructorBySlugQuery,
   instructorsQuery,
   reviewsByInstructorSlugQuery,
@@ -11,18 +13,21 @@ import {
 import { isSanityConfigured, sanityClient } from "@/lib/sanity/client";
 import {
   getMockArticles,
+  getMockCategoryPageBySlug,
+  getMockCategoryPages,
   getMockHomeData,
   getMockInstructorReviews,
   getMockInstructors,
   getMockServices,
   getMockSettings,
 } from "@/lib/mock-data";
-import { Article, HomeData, Instructor, Locale, Review, Service, SiteSettings } from "@/lib/types";
+import { Article, CategoryPage, HomeData, Instructor, Locale, Review, Service, SiteSettings } from "@/lib/types";
 
 const SANITY_TAGS = {
   instructors: "instructors",
   services: "services",
   articles: "articles",
+  categoryPages: "category-pages",
   reviews: "reviews",
   settings: "site-settings",
 };
@@ -114,6 +119,34 @@ export async function getArticles(locale: Locale): Promise<Article[]> {
     return data ?? [];
   } catch {
     return getMockArticles(locale);
+  }
+}
+
+export async function getCategoryPages(locale: Locale): Promise<CategoryPage[]> {
+  if (!isSanityConfigured) {
+    return getMockCategoryPages(locale);
+  }
+
+  try {
+    const data = await fetchFromSanity<CategoryPage[]>(categoryPagesQuery, { locale }, [SANITY_TAGS.categoryPages]);
+    return data && data.length > 0 ? data : getMockCategoryPages(locale);
+  } catch {
+    return getMockCategoryPages(locale);
+  }
+}
+
+export async function getCategoryPageBySlug(locale: Locale, slug: string): Promise<CategoryPage | null> {
+  if (!isSanityConfigured) {
+    return getMockCategoryPageBySlug(locale, slug);
+  }
+
+  try {
+    const data = await fetchFromSanity<CategoryPage | null>(categoryPageBySlugQuery, { locale, slug }, [
+      SANITY_TAGS.categoryPages,
+    ]);
+    return data ?? getMockCategoryPageBySlug(locale, slug);
+  } catch {
+    return getMockCategoryPageBySlug(locale, slug);
   }
 }
 

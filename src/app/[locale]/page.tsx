@@ -2,10 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 import { JsonLd } from "@/components/json-ld";
-import { getHomeData } from "@/lib/cms";
+import { getCategoryPages, getHomeData } from "@/lib/cms";
 import { isLocale, toLocalePath } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
-import { Locale } from "@/lib/types";
+import { CategoryKind, CategoryPage, Locale } from "@/lib/types";
 
 interface HomeCategoryCard {
   key: string;
@@ -16,6 +16,121 @@ interface HomeCategoryCard {
   className: string;
   tagTone?: "soft" | "accent";
 }
+
+const cardLayouts: Record<CategoryKind, Pick<HomeCategoryCard, "className" | "tagTone">> = {
+  instructors: { className: "xl:col-span-3 xl:row-span-2" },
+  tours: { className: "xl:col-span-4", tagTone: "accent" },
+  rental: { className: "xl:col-span-5" },
+  places: { className: "xl:col-span-6" },
+  services: { className: "xl:col-span-3 xl:row-span-2" },
+  transfer: { className: "xl:col-span-5" },
+  "real-estate": { className: "xl:col-span-4", tagTone: "accent" },
+};
+
+const fallbackCategoryContent: Record<Locale, Array<Pick<CategoryPage, "slug" | "kind" | "title" | "description" | "tags">>> = {
+  ru: [
+    {
+      slug: "instructors",
+      kind: "instructors",
+      title: "Instructors",
+      description: "Проверенные лыжные и сноуборд инструкторы.",
+      tags: ["ski", "snowboard"],
+    },
+    {
+      slug: "tours",
+      kind: "tours",
+      title: "Tours",
+      description: "Сопровождение и маршруты по Гудаури.",
+      tags: ["Freeride", "Ski tour"],
+    },
+    {
+      slug: "rental",
+      kind: "rental",
+      title: "Rental",
+      description: "Прокат досок, лыж и защитного снаряжения.",
+      tags: ["snowboards", "ski"],
+    },
+    {
+      slug: "places",
+      kind: "places",
+      title: "Places",
+      description: "Лучшие места для еды, отдыха и aprés-ski.",
+      tags: ["Bars", "Restaurants"],
+    },
+    {
+      slug: "services",
+      kind: "services",
+      title: "Services",
+      description: "Фото, видео и семейные сервисы на склоне.",
+      tags: ["Nannies", "Foto", "Video"],
+    },
+    {
+      slug: "transfer",
+      kind: "transfer",
+      title: "Transfer",
+      description: "Комфортная логистика до и от курорта.",
+      tags: ["Batumi - Gudauri", "Tbilisi - Gudauri"],
+    },
+    {
+      slug: "real-estate",
+      kind: "real-estate",
+      title: "Real estate",
+      description: "Апартаменты и шале рядом со склоном.",
+      tags: ["Apartments", "Chalets"],
+    },
+  ],
+  en: [
+    {
+      slug: "instructors",
+      kind: "instructors",
+      title: "Instructors",
+      description: "Verified ski and snowboard instructors.",
+      tags: ["ski", "snowboard"],
+    },
+    {
+      slug: "tours",
+      kind: "tours",
+      title: "Tours",
+      description: "Guided routes and freeride tours in Gudauri.",
+      tags: ["Freeride", "Ski tour"],
+    },
+    {
+      slug: "rental",
+      kind: "rental",
+      title: "Rental",
+      description: "Rent boards, skis, and protective gear.",
+      tags: ["snowboards", "ski"],
+    },
+    {
+      slug: "places",
+      kind: "places",
+      title: "Places",
+      description: "Best places to eat, chill and après-ski.",
+      tags: ["Bars", "Restaurants"],
+    },
+    {
+      slug: "services",
+      kind: "services",
+      title: "Services",
+      description: "Photo, video, and family services on slope.",
+      tags: ["Nannies", "Photo", "Video"],
+    },
+    {
+      slug: "transfer",
+      kind: "transfer",
+      title: "Transfer",
+      description: "Reliable transfers to and from the resort.",
+      tags: ["Batumi - Gudauri", "Tbilisi - Gudauri"],
+    },
+    {
+      slug: "real-estate",
+      kind: "real-estate",
+      title: "Real estate",
+      description: "Apartments and chalets near the slopes.",
+      tags: ["Apartments", "Chalets"],
+    },
+  ],
+};
 
 function formatHeroDate(locale: Locale) {
   return new Intl.DateTimeFormat(locale === "ru" ? "ru-RU" : "en-US", {
@@ -40,70 +155,34 @@ function resolveHeroVariant(value: string | string[] | undefined): 1 | 2 | 3 {
   return 2;
 }
 
-function buildCategoryCards(locale: Locale): HomeCategoryCard[] {
-  const isRu = locale === "ru";
-  const services = toLocalePath(locale, "/services");
+function buildCategoryCards(locale: Locale, categoryPages: CategoryPage[]): HomeCategoryCard[] {
+  const source =
+    categoryPages.length > 0
+      ? categoryPages
+      : fallbackCategoryContent[locale].map((item, index) => ({
+          id: `fallback-${item.slug}`,
+          slug: item.slug,
+          kind: item.kind,
+          title: item.title,
+          description: item.description,
+          tags: item.tags,
+          updatedAt: `2026-02-${String(10 + index).padStart(2, "0")}`,
+          isPublished: true,
+        }));
 
-  return [
-    {
-      key: "instructors",
-      title: "Instructors",
-      description: isRu ? "Проверенные лыжные и сноуборд инструкторы." : "Verified ski and snowboard instructors.",
-      href: toLocalePath(locale, "/instructors"),
-      tags: isRu ? ["ski", "snowboard"] : ["ski", "snowboard"],
-      className: "xl:col-span-3 xl:row-span-2",
-    },
-    {
-      key: "tours",
-      title: "Tours",
-      description: isRu ? "Сопровождение и маршруты по Гудаури." : "Guided routes and freeride tours in Gudauri.",
-      href: `${services}?serviceType=tour`,
-      tags: ["Freeride", "Ski tour"],
-      className: "xl:col-span-4",
-      tagTone: "accent",
-    },
-    {
-      key: "rental",
-      title: "Rental",
-      description: isRu ? "Прокат досок, лыж и защитного снаряжения." : "Rent boards, skis, and protective gear.",
-      href: `${services}?serviceType=rental`,
-      tags: isRu ? ["snowboards", "ski"] : ["snowboards", "ski"],
-      className: "xl:col-span-5",
-    },
-    {
-      key: "places",
-      title: "Places",
-      description: isRu ? "Лучшие места для еды, отдыха и aprés-ski." : "Best places to eat, chill and après-ski.",
-      href: toLocalePath(locale, "/articles"),
-      tags: isRu ? ["Bars", "Restaurants"] : ["Bars", "Restaurants"],
-      className: "xl:col-span-6",
-    },
-    {
-      key: "services",
-      title: "Services",
-      description: isRu ? "Фото, видео и семейные сервисы на склоне." : "Photo, video, and family services on slope.",
-      href: toLocalePath(locale, "/services"),
-      tags: isRu ? ["Nannies", "Foto", "Video"] : ["Nannies", "Photo", "Video"],
-      className: "xl:col-span-3 xl:row-span-2",
-    },
-    {
-      key: "transfer",
-      title: "Transfer",
-      description: isRu ? "Комфортная логистика до и от курорта." : "Reliable transfers to and from the resort.",
-      href: `${services}?serviceType=transfer`,
-      tags: ["Batumi - Gudauri", "Tbilisi - Gudauri"],
-      className: "xl:col-span-5",
-    },
-    {
-      key: "real-estate",
-      title: "Real estate",
-      description: isRu ? "Апартаменты и шале рядом со склоном." : "Apartments and chalets near the slopes.",
-      href: `${services}?serviceType=accommodation`,
-      tags: ["Apartments", "Chalets"],
-      className: "xl:col-span-4",
-      tagTone: "accent",
-    },
-  ];
+  return source.map((item) => {
+    const layout = cardLayouts[item.kind];
+
+    return {
+      key: item.id,
+      title: item.title,
+      description: item.description,
+      href: toLocalePath(locale, `/categories/${item.slug}`),
+      tags: item.tags,
+      className: layout.className,
+      tagTone: layout.tagTone,
+    };
+  });
 }
 
 function CategoryCard({ card }: { card: HomeCategoryCard }) {
@@ -167,7 +246,8 @@ export default async function HomePage({
   const locale = isLocale(rawLocale) ? rawLocale : "ru";
   const heroVariant = resolveHeroVariant(query.hero);
   const heroImage = `/home/mountains-${heroVariant}.jpg`;
-  const cards = buildCategoryCards(locale);
+  const categoryPages = await getCategoryPages(locale);
+  const cards = buildCategoryCards(locale, categoryPages);
 
   return (
     <div className="space-y-12 pb-12">

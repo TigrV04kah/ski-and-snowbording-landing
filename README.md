@@ -14,6 +14,7 @@ Next.js + Sanity landing/catalog for ski & snowboard instructors and local servi
 - `/instructors`, `/instructors/[slug]`
 - `/services`, `/services/[slug]`
 - `/articles`, `/articles/[slug]`
+- `/categories/[slug]` (separate landing page for each homepage category block)
 - `/privacy`, `/cookies`
 - `/en/*` localized English routes
 - `/studio` Sanity Studio

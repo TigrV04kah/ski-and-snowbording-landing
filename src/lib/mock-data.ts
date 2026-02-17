@@ -1,4 +1,4 @@
-import { Article, HomeData, Instructor, Locale, Review, Service, SiteSettings } from "@/lib/types";
+import { Article, CategoryPage, HomeData, Instructor, Locale, Review, Service, SiteSettings } from "@/lib/types";
 
 const settingsByLocale: Record<Locale, SiteSettings> = {
   ru: {
@@ -389,6 +389,118 @@ const articlesEn: Article[] = articlesRu.map((item) => ({
         : "What first-time riders should know before day one.",
 }));
 
+const categoryPagesRu: CategoryPage[] = [
+  {
+    id: "cat-1",
+    slug: "instructors",
+    kind: "instructors",
+    title: "Instructors",
+    description: "Проверенные лыжные и сноуборд инструкторы.",
+    tags: ["ski", "snowboard"],
+    content: "Выберите инструктора по уровню, формату занятий и языку общения.",
+    updatedAt: "2026-02-17",
+    isPublished: true,
+  },
+  {
+    id: "cat-2",
+    slug: "tours",
+    kind: "tours",
+    title: "Tours",
+    description: "Сопровождение и маршруты по Гудаури.",
+    tags: ["Freeride", "Ski tour"],
+    content: "Категория с подборкой туров и сопровождения по фрирайд-направлениям.",
+    updatedAt: "2026-02-17",
+    isPublished: true,
+  },
+  {
+    id: "cat-3",
+    slug: "rental",
+    kind: "rental",
+    title: "Rental",
+    description: "Прокат досок, лыж и защитного снаряжения.",
+    tags: ["snowboards", "ski"],
+    content: "Здесь публикуются сервисы проката и сопутствующего снаряжения.",
+    updatedAt: "2026-02-17",
+    isPublished: true,
+  },
+  {
+    id: "cat-4",
+    slug: "places",
+    kind: "places",
+    title: "Places",
+    description: "Лучшие места для еды, отдыха и aprés-ski.",
+    tags: ["Bars", "Restaurants"],
+    content: "Подборка материалов о местах в Гудаури: еда, отдых и инфраструктура.",
+    updatedAt: "2026-02-17",
+    isPublished: true,
+  },
+  {
+    id: "cat-5",
+    slug: "services",
+    kind: "services",
+    title: "Services",
+    description: "Фото, видео и семейные сервисы на склоне.",
+    tags: ["Nannies", "Foto", "Video"],
+    content: "Все доступные сервисы в Гудаури в одном списке.",
+    updatedAt: "2026-02-17",
+    isPublished: true,
+  },
+  {
+    id: "cat-6",
+    slug: "transfer",
+    kind: "transfer",
+    title: "Transfer",
+    description: "Комфортная логистика до и от курорта.",
+    tags: ["Batumi - Gudauri", "Tbilisi - Gudauri"],
+    content: "Трансферы из аэропортов и городов до Гудаури и обратно.",
+    updatedAt: "2026-02-17",
+    isPublished: true,
+  },
+  {
+    id: "cat-7",
+    slug: "real-estate",
+    kind: "real-estate",
+    title: "Real estate",
+    description: "Апартаменты и шале рядом со склоном.",
+    tags: ["Apartments", "Chalets"],
+    content: "Категория по проживанию: апартаменты, шале и размещение рядом с подъемниками.",
+    updatedAt: "2026-02-17",
+    isPublished: true,
+  },
+];
+
+const categoryPagesEn: CategoryPage[] = categoryPagesRu.map((item) => ({
+  ...item,
+  description:
+    item.kind === "instructors"
+      ? "Verified ski and snowboard instructors."
+      : item.kind === "tours"
+        ? "Guided routes and freeride tours in Gudauri."
+        : item.kind === "rental"
+          ? "Rent boards, skis, and protective gear."
+          : item.kind === "places"
+            ? "Best places to eat, chill and après-ski."
+            : item.kind === "services"
+              ? "Photo, video, and family services on slope."
+              : item.kind === "transfer"
+                ? "Reliable transfers to and from the resort."
+                : "Apartments and chalets near the slopes.",
+  content:
+    item.kind === "instructors"
+      ? "Browse instructors by level, format, and language."
+      : item.kind === "tours"
+        ? "A focused listing of guided freeride and ski-tour options."
+        : item.kind === "rental"
+          ? "This category includes equipment rental services."
+          : item.kind === "places"
+            ? "Practical guides to places in Gudauri: food, rest, and infrastructure."
+            : item.kind === "services"
+              ? "All available local services in one category."
+              : item.kind === "transfer"
+                ? "Transfers between airports, cities, and Gudauri."
+                : "Accommodation options close to slopes and lifts.",
+}));
+
 const reviewsRu: Review[] = [
   {
     id: "rev-1",
@@ -465,6 +577,14 @@ export function getMockServices(locale: Locale): Service[] {
 
 export function getMockArticles(locale: Locale): Article[] {
   return byLocale(locale, articlesRu, articlesEn);
+}
+
+export function getMockCategoryPages(locale: Locale): CategoryPage[] {
+  return byLocale(locale, categoryPagesRu, categoryPagesEn);
+}
+
+export function getMockCategoryPageBySlug(locale: Locale, slug: string): CategoryPage | null {
+  return getMockCategoryPages(locale).find((item) => item.slug === slug) ?? null;
 }
 
 export function getMockSettings(locale: Locale): SiteSettings {

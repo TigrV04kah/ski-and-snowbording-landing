@@ -151,6 +151,34 @@ export const siteSettingsQuery = groq`
   }
 `;
 
+export const categoryPagesQuery = groq`
+  *[_type == "categoryPage" && isPublished == true] | order(homeOrder asc, _createdAt asc) {
+    "id": _id,
+    "slug": slug.current,
+    kind,
+    "title": coalesce(title[$locale], title.ru, title.en),
+    "description": coalesce(description[$locale], description.ru, description.en),
+    "tags": coalesce(tags, []),
+    "content": coalesce(contentRich[$locale], contentRich.ru, contentRich.en),
+    "updatedAt": _updatedAt,
+    isPublished
+  }
+`;
+
+export const categoryPageBySlugQuery = groq`
+  *[_type == "categoryPage" && slug.current == $slug && isPublished == true][0] {
+    "id": _id,
+    "slug": slug.current,
+    kind,
+    "title": coalesce(title[$locale], title.ru, title.en),
+    "description": coalesce(description[$locale], description.ru, description.en),
+    "tags": coalesce(tags, []),
+    "content": coalesce(contentRich[$locale], contentRich.ru, contentRich.en),
+    "updatedAt": _updatedAt,
+    isPublished
+  }
+`;
+
 export const reviewsByInstructorSlugQuery = groq`
   *[
     _type == "review" &&

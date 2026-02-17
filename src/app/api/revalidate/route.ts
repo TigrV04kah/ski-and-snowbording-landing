@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 
-const tags = ["instructors", "services", "articles", "reviews", "site-settings"];
+const tags = ["instructors", "services", "articles", "reviews", "site-settings", "category-pages"];
 
 export async function POST(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get("secret");

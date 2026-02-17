@@ -7,6 +7,14 @@ export type InquiryType = "instructor" | "service";
 export type Discipline = "ski" | "snowboard";
 export type SkillLevel = "beginner" | "intermediate" | "advanced";
 export type LessonFormat = "individual" | "group";
+export type CategoryKind =
+  | "instructors"
+  | "tours"
+  | "rental"
+  | "places"
+  | "services"
+  | "transfer"
+  | "real-estate";
 
 export interface ContactLinks {
   whatsapp?: string;
@@ -70,6 +78,18 @@ export interface Review {
   text: string;
   date: string;
   verified?: boolean;
+}
+
+export interface CategoryPage {
+  id: string;
+  slug: string;
+  kind: CategoryKind;
+  title: string;
+  description: string;
+  tags: string[];
+  content?: string | Array<{ _type: string; [key: string]: unknown }>;
+  updatedAt: string;
+  isPublished?: boolean;
 }
 
 export interface SiteSettings {

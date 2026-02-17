@@ -18,14 +18,27 @@
 3. Set `publishedAt` and `isPublished = true`.
 4. Publish.
 
-## 4. If leads stop coming
+## 4. How to add/edit homepage category blocks (separate pages)
+1. Open `/studio`.
+2. Create `Category page`.
+3. Fill required fields:
+   - `title` (RU + EN)
+   - `slug`
+   - `kind` (instructors / tours / rental / places / services / transfer / real-estate)
+   - `homeOrder`
+   - `description` (RU + EN)
+4. Optional: add tags and page content.
+5. Set `isPublished = true` and publish.
+6. Homepage cards will link to `/categories/[slug]` (separate page per block).
+
+## 5. If leads stop coming
 1. Check Vercel logs for `/api/leads`.
 2. Verify `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`.
 3. Verify SMTP env vars (`SMTP_*`, `LEADS_EMAIL_TO`).
 4. Submit test lead from website.
 5. If delivery fails, temporarily keep only one working channel (Telegram or Email) and fix second channel later.
 
-## 5. Weekly 5-minute checklist
+## 6. Weekly 5-minute checklist
 1. Open latest 10 listings and check contact links.
 2. Confirm no outdated prices.
 3. Ensure RU/EN texts are both filled.
