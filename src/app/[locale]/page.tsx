@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
-import { ArticleCard } from "@/components/article-card";
 import { JsonLd } from "@/components/json-ld";
 import { getHomeData } from "@/lib/cms";
-import { isLocale, t, toLocalePath } from "@/lib/i18n";
+import { isLocale, toLocalePath } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
 import { Locale } from "@/lib/types";
 
@@ -168,8 +167,6 @@ export async function generateMetadata({
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: rawLocale } = await params;
   const locale = isLocale(rawLocale) ? rawLocale : "ru";
-  const copy = t(locale);
-  const home = await getHomeData(locale);
   const cards = buildCategoryCards(locale);
 
   return (
@@ -223,22 +220,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      <section
-        id="about-gudauri"
-        className="scroll-mt-28 rounded-[2rem] border border-[var(--line)] bg-white px-6 py-7 md:px-8 md:py-9"
-      >
-        <h2 className="font-sans text-4xl font-black tracking-tight text-[#16181b] md:text-5xl">{copy.nav.about}</h2>
-        <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[var(--ink-muted)]">{copy.aboutText}</p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="font-serif text-3xl">{copy.sections.articles}</h2>
-        <div className="grid gap-4 md:grid-cols-3">
-          {home.latestArticles.map((article) => (
-            <ArticleCard key={article.id} locale={locale} article={article} />
-          ))}
-        </div>
-      </section>
+      <div id="about-gudauri" className="scroll-mt-28" />
     </div>
   );
 }
