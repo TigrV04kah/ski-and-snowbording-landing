@@ -41,6 +41,16 @@ a[class*="bg-[var(--ink)]"] {
   color: #fff;
 }
 
+.offer-service-btn {
+  background: #121316 !important;
+  color: #fff !important;
+}
+
+.offer-service-btn:hover {
+  background: #2a2d34 !important;
+  color: #fff !important;
+}
+
 h1,
 h2,
 h3,
