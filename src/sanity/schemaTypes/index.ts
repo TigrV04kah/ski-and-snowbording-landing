@@ -1,6 +1,7 @@
 import { articleType } from "@/sanity/schemaTypes/article";
 import { categoryPageType } from "@/sanity/schemaTypes/categoryPage";
 import { contactLinksType, socialLinkType } from "@/sanity/schemaTypes/common";
+import { faqItemType } from "@/sanity/schemaTypes/faqItem";
 import { instructorType } from "@/sanity/schemaTypes/instructor";
 import { localizedPortableText, localizedString, localizedText } from "@/sanity/schemaTypes/localizedFields";
 import { reviewType } from "@/sanity/schemaTypes/review";
@@ -19,4 +20,5 @@ export const schemaTypes = [
   categoryPageType,
   reviewType,
   siteSettingsType,
+  faqItemType,
 ];

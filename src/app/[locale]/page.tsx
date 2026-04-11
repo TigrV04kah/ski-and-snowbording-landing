@@ -2,11 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 import { JsonLd } from "@/components/json-ld";
-import { getCategoryPages, getHomeData, getInstructorReviews } from "@/lib/cms";
+import { getCategoryPages, getFaqItems, getHomeData, getInstructorReviews } from "@/lib/cms";
 import { formatDiscipline, isLocale, toLocalePath } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
 import { imageUrl } from "@/lib/sanity/image";
-import { CategoryKind, CategoryPage, Instructor, Locale } from "@/lib/types";
+import { CategoryKind, CategoryPage, FaqItem, Instructor, Locale } from "@/lib/types";
 
 interface HomeCategoryCard {
   key: string;
@@ -19,11 +19,6 @@ interface HomeCategoryCard {
   imageAlt: string;
   imageWrapperClassName: string;
   imageClassName: string;
-}
-
-interface FaqEntry {
-  question: string;
-  answer: string;
 }
 
 // Bento layout — approximate positions matching the Figma design.
@@ -45,8 +40,8 @@ const categoryVisuals: Record<
   instructors: {
     imageSrc: "/home/instructors.png",
     imageAlt: "Snowboard instructor on a slope",
-    imageWrapperClassName: "bottom-0 right-2 h-[78%] w-[50%]",
-    imageClassName: "object-contain object-bottom",
+    imageWrapperClassName: "bottom-0 right-0 h-[78%] w-[50%]",
+    imageClassName: "object-contain object-right-bottom",
   },
   tours: {
     imageSrc: "/home/tours.png",
@@ -57,13 +52,13 @@ const categoryVisuals: Record<
   rental: {
     imageSrc: "/home/rental.png",
     imageAlt: "Rental gear",
-    imageWrapperClassName: "right-2 top-2 h-[84%] w-[48%]",
-    imageClassName: "object-contain object-right",
+    imageWrapperClassName: "right-0 top-0 h-[88%] w-[48%]",
+    imageClassName: "object-contain object-right-top",
   },
   places: {
     imageSrc: "/home/places.png",
     imageAlt: "Mountain chalet in Gudauri",
-    imageWrapperClassName: "bottom-2 right-2 h-[72%] w-[52%]",
+    imageWrapperClassName: "bottom-0 right-0 h-[72%] w-[52%]",
     imageClassName: "object-contain object-right-bottom",
   },
   services: {
@@ -210,33 +205,6 @@ const sectionCopy = {
     faqEyebrow: "Frequently Asked Questions",
     faqTitle: "FAQ",
     reviewLabel: "отзывов",
-    faq: [
-      {
-        question: "Is the price different for each instructor?",
-        answer:
-          "Итоговая цена может различаться по опыту, формату и длительности, но на платформе удобно сравнить предложения без лишних переписок.",
-      },
-      {
-        question: "Is the price different for each instructor?",
-        answer:
-          "Часы можно взять одним длинным днём или разбить на несколько коротких сессий под ваш темп и погоду.",
-      },
-      {
-        question: "How are lesson hours distributed across days?",
-        answer:
-          "Часы можно распределять по дням — вы согласовываете расписание напрямую с инструктором.",
-      },
-      {
-        question: "How does the booking process work?",
-        answer:
-          "Вы оставляете заявку на сайте, после чего связываетесь с инструктором или сервисом напрямую.",
-      },
-      {
-        question: "When do I receive the instructor's contact details?",
-        answer:
-          "Сразу после выбора профиля можно отправить запрос, контакты уже в карточке инструктора.",
-      },
-    ] satisfies FaqEntry[],
   },
   en: {
     hotDeal: "HOT DEAL",
@@ -253,33 +221,6 @@ const sectionCopy = {
     faqEyebrow: "Frequently Asked Questions",
     faqTitle: "FAQ",
     reviewLabel: "reviews",
-    faq: [
-      {
-        question: "Is the price different for each instructor?",
-        answer:
-          "Pricing can vary depending on experience, lesson format, and session length, but the platform makes it easy to compare options.",
-      },
-      {
-        question: "Is the price different for each instructor?",
-        answer:
-          "You can book one longer day or split your lessons into several shorter sessions depending on your pace and weather.",
-      },
-      {
-        question: "How are lesson hours distributed across days?",
-        answer:
-          "Hours can be split across days — you arrange the schedule directly with the instructor.",
-      },
-      {
-        question: "How does the booking process work?",
-        answer:
-          "Submit a request on the site, then coordinate directly with the instructor to confirm timing and details.",
-      },
-      {
-        question: "When do I receive the instructor's contact details?",
-        answer:
-          "As soon as you pick a profile you can send a request — contacts are already listed in the card.",
-      },
-    ] satisfies FaqEntry[],
   },
 } as const;
 
@@ -353,31 +294,31 @@ function CategoryCard({ card }: { card: HomeCategoryCard }) {
   return (
     <Link
       href={card.href}
-      className={`group relative min-h-[220px] overflow-hidden rounded-3xl bg-[var(--bg-card)] px-5 py-5 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.04),0_12px_32px_-20px_rgba(0,0,0,0.12)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_10px_-2px_rgba(0,0,0,0.05),0_18px_40px_-20px_rgba(0,0,0,0.18)] md:px-6 md:py-6 ${card.className}`}
+      className={`group relative min-h-[154px] overflow-hidden rounded-[1.4rem] bg-[var(--bg-card)] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.04),0_12px_32px_-20px_rgba(0,0,0,0.12)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_10px_-2px_rgba(0,0,0,0.05),0_18px_40px_-20px_rgba(0,0,0,0.18)] ${card.className}`}
     >
       <div className={`pointer-events-none absolute ${card.imageWrapperClassName}`}>
         <Image
           src={card.imageSrc}
           alt={card.imageAlt}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 35vw, 23vw"
           className={card.imageClassName}
         />
       </div>
 
-      <div className="relative z-10 flex h-full max-w-[58%] flex-col gap-2">
-        <h2 className="font-sans text-[2rem] leading-[0.96] tracking-[-0.04em] text-[var(--ink)] md:text-[2.4rem]">
+      <div className="relative z-10 flex h-full max-w-[58%] flex-col gap-1.5 px-4 py-4 md:px-5 md:py-4">
+        <h2 className="font-sans text-[1.4rem] leading-[0.96] tracking-[-0.04em] text-[var(--ink)] md:text-[1.7rem]">
           {card.title}
         </h2>
-        <p className="text-sm leading-5 text-[var(--ink-muted)] md:text-[0.95rem]">
+        <p className="text-xs leading-4 text-[var(--ink-muted)] md:text-[0.72rem]">
           {card.description}
         </p>
 
-        <div className="mt-auto flex flex-wrap gap-2 pt-4">
+        <div className="mt-auto flex flex-wrap gap-1.5 pt-3">
           {card.tags.map((tag) => (
             <span
               key={`${card.key}-${tag}`}
-              className="rounded-full bg-[var(--line)] px-3 py-1 text-xs text-[var(--ink-muted)]"
+              className="rounded-full bg-[var(--line)] px-2 py-0.5 text-[0.65rem] text-[var(--ink-muted)]"
             >
               {tag}
             </span>
@@ -459,7 +400,7 @@ function HomeInstructorCard({
   );
 }
 
-function FaqItem({ item, defaultOpen = false }: { item: FaqEntry; defaultOpen?: boolean }) {
+function FaqRow({ item, defaultOpen = false }: { item: FaqItem; defaultOpen?: boolean }) {
   return (
     <details
       open={defaultOpen}
@@ -506,7 +447,11 @@ export default async function HomePage({
   const locale = isLocale(rawLocale) ? rawLocale : "ru";
   const homeCopy = sectionCopy[locale];
 
-  const [home, categoryPages] = await Promise.all([getHomeData(locale), getCategoryPages(locale)]);
+  const [home, categoryPages, faqItems] = await Promise.all([
+    getHomeData(locale),
+    getCategoryPages(locale),
+    getFaqItems(locale),
+  ]);
   const cards = buildCategoryCards(locale, categoryPages);
 
   const featuredInstructors = home.featuredInstructors.slice(0, 3);
@@ -523,7 +468,7 @@ export default async function HomePage({
   const reviewMap = new Map(reviewStats.map((item) => [item.slug, item]));
 
   return (
-    <div className="space-y-20 pb-20 md:space-y-24 md:pb-24">
+    <div className="pb-20 md:pb-24">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -597,9 +542,9 @@ export default async function HomePage({
       {/* CATEGORIES BENTO */}
       <section
         id="sections"
-        className="-mx-4 scroll-mt-28 rounded-3xl bg-[var(--bg-soft)] px-4 py-5 md:-mx-6 md:px-6 md:py-7"
+        className="relative z-30 -mx-4 -mt-16 scroll-mt-28 rounded-3xl bg-[var(--bg-soft)] px-4 py-4 md:-mx-6 md:-mt-24 md:px-5 md:py-5"
       >
-        <div className="grid gap-4 md:grid-cols-2 xl:auto-rows-[220px] xl:grid-cols-12">
+        <div className="grid gap-3 md:grid-cols-2 xl:auto-rows-[154px] xl:grid-cols-12">
           {cards.map((card) => (
             <CategoryCard key={card.key} card={card} />
           ))}
@@ -607,7 +552,7 @@ export default async function HomePage({
       </section>
 
       {/* FIND AN INSTRUCTOR */}
-      <section className="space-y-8">
+      <section className="mt-20 space-y-8 md:mt-24">
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ink-muted)]">
             {homeCopy.trustEyebrow}
@@ -653,7 +598,7 @@ export default async function HomePage({
       </section>
 
       {/* FAQ */}
-      <section className="grid gap-10 xl:grid-cols-[0.6fr_1.4fr]">
+      <section className="mt-20 grid gap-10 md:mt-24 xl:grid-cols-[0.6fr_1.4fr]">
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ink-muted)]">
             {homeCopy.faqEyebrow}
@@ -664,8 +609,8 @@ export default async function HomePage({
         </div>
 
         <div className="space-y-3">
-          {homeCopy.faq.map((item, index) => (
-            <FaqItem key={`${item.question}-${index}`} item={item} defaultOpen={index === 0} />
+          {faqItems.map((item, index) => (
+            <FaqRow key={item.id} item={item} defaultOpen={index === 0} />
           ))}
         </div>
       </section>

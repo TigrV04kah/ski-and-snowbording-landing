@@ -88,6 +88,13 @@ export interface Review {
   verified?: boolean;
 }
 
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  order?: number;
+}
+
 export interface CategoryPage {
   id: string;
   slug: string;

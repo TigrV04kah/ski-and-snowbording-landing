@@ -3,6 +3,7 @@ import {
   articlesQuery,
   categoryPageBySlugQuery,
   categoryPagesQuery,
+  faqItemsQuery,
   instructorBySlugQuery,
   instructorsQuery,
   reviewsByInstructorSlugQuery,
@@ -21,7 +22,17 @@ import {
   getMockServices,
   getMockSettings,
 } from "@/lib/mock-data";
-import { Article, CategoryPage, HomeData, Instructor, Locale, Review, Service, SiteSettings } from "@/lib/types";
+import {
+  Article,
+  CategoryPage,
+  FaqItem,
+  HomeData,
+  Instructor,
+  Locale,
+  Review,
+  Service,
+  SiteSettings,
+} from "@/lib/types";
 
 const SANITY_TAGS = {
   instructors: "instructors",
@@ -30,6 +41,70 @@ const SANITY_TAGS = {
   categoryPages: "category-pages",
   reviews: "reviews",
   settings: "site-settings",
+  faq: "faq-items",
+};
+
+const FALLBACK_FAQ: Record<Locale, FaqItem[]> = {
+  ru: [
+    {
+      id: "fallback-ru-1",
+      order: 1,
+      question: "Цена зависит от конкретного инструктора?",
+      answer:
+        "Итоговая цена может различаться по опыту, формату и длительности, но на платформе удобно сравнить предложения без лишних переписок.",
+    },
+    {
+      id: "fallback-ru-2",
+      order: 2,
+      question: "Как распределяются часы занятий по дням?",
+      answer:
+        "Часы можно распределять по дням — вы согласовываете расписание напрямую с инструктором.",
+    },
+    {
+      id: "fallback-ru-3",
+      order: 3,
+      question: "Как происходит бронирование?",
+      answer:
+        "Вы оставляете заявку на сайте, после чего связываетесь с инструктором или сервисом напрямую.",
+    },
+    {
+      id: "fallback-ru-4",
+      order: 4,
+      question: "Когда я получу контакты инструктора?",
+      answer:
+        "Сразу после выбора профиля можно отправить запрос, контакты уже в карточке инструктора.",
+    },
+  ],
+  en: [
+    {
+      id: "fallback-en-1",
+      order: 1,
+      question: "Is the price different for each instructor?",
+      answer:
+        "Pricing can vary depending on experience, lesson format, and session length, but the platform makes it easy to compare options.",
+    },
+    {
+      id: "fallback-en-2",
+      order: 2,
+      question: "How are lesson hours distributed across days?",
+      answer:
+        "Hours can be split across days — you arrange the schedule directly with the instructor.",
+    },
+    {
+      id: "fallback-en-3",
+      order: 3,
+      question: "How does the booking process work?",
+      answer:
+        "Submit a request on the site, then coordinate directly with the instructor to confirm timing and details.",
+    },
+    {
+      id: "fallback-en-4",
+      order: 4,
+      question: "When do I receive the instructor's contact details?",
+      answer:
+        "As soon as you pick a profile you can send a request — contacts are already listed in the card.",
+    },
+  ],
 };
 
 async function fetchFromSanity<T>(query: string, params: Record<string, unknown>, tags: string[]): Promise<T> {
@@ -195,6 +270,24 @@ export async function getInstructorReviews(locale: Locale, slug: string): Promis
     return data ?? [];
   } catch {
     return getMockInstructorReviews(locale, slug);
+  }
+}
+
+export async function getFaqItems(locale: Locale): Promise<FaqItem[]> {
+  if (!isSanityConfigured) {
+    return FALLBACK_FAQ[locale];
+  }
+
+  try {
+    const data = await fetchFromSanity<FaqItem[]>(
+      faqItemsQuery,
+      { locale },
+      [SANITY_TAGS.faq],
+    );
+
+    return data && data.length > 0 ? data : FALLBACK_FAQ[locale];
+  } catch {
+    return FALLBACK_FAQ[locale];
   }
 }
 

@@ -287,6 +287,15 @@ export const categoryPageBySlugQuery = groq`
   }
 `;
 
+export const faqItemsQuery = groq`
+  *[_type == "faqItem" && isPublished == true] | order(order asc, _createdAt asc) {
+    "id": _id,
+    "question": coalesce(question[$locale], question.ru, question.en),
+    "answer": coalesce(answer[$locale], answer.ru, answer.en),
+    order
+  }
+`;
+
 export const reviewsByInstructorSlugQuery = groq`
   *[
     _type == "review" &&
