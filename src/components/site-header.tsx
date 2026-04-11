@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { t, toLocalePath } from "@/lib/i18n";
 import { Locale } from "@/lib/types";
-import { LanguageSwitcher } from "@/components/language-switcher";
 
 interface HeaderSectionLink {
   slug: string;
@@ -22,30 +21,29 @@ export function SiteHeader({
   const pathname = usePathname() ?? "";
   const copy = t(locale);
   const homePath = toLocalePath(locale, "/");
-  const isHome = pathname === "/ru" || pathname === "/en" || pathname === "/";
   const aboutHref = `${homePath}#about-gudauri`;
   const supportHref = `${homePath}#support`;
-  const [isSectionsOpen, setIsSectionsOpen] = useState(false);
-  const sectionsMenuRef = useRef<HTMLDivElement | null>(null);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const categoriesMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!isSectionsOpen) {
+    if (!isCategoriesOpen) {
       return;
     }
 
     const onPointerDown = (event: MouseEvent) => {
-      if (!sectionsMenuRef.current) {
+      if (!categoriesMenuRef.current) {
         return;
       }
 
-      if (!sectionsMenuRef.current.contains(event.target as Node)) {
-        setIsSectionsOpen(false);
+      if (!categoriesMenuRef.current.contains(event.target as Node)) {
+        setIsCategoriesOpen(false);
       }
     };
 
     const onEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsSectionsOpen(false);
+        setIsCategoriesOpen(false);
       }
     };
 
@@ -56,60 +54,54 @@ export function SiteHeader({
       document.removeEventListener("mousedown", onPointerDown);
       document.removeEventListener("keydown", onEscape);
     };
-  }, [isSectionsOpen]);
+  }, [isCategoriesOpen]);
 
   return (
-    <header
-      className={
-        isHome
-          ? "absolute inset-x-0 top-0 z-50 bg-gradient-to-b from-white/85 via-white/45 to-transparent"
-          : "sticky top-0 z-50 border-b border-black/10 bg-white/90 backdrop-blur"
-      }
-    >
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-5 md:px-6">
         <Link
           href={homePath}
-          className="font-sans text-2xl font-black leading-[0.78] tracking-tight text-[#1e2023]"
+          className="inline-flex items-baseline gap-0.5 font-sans text-[1.7rem] leading-none tracking-[-0.06em] text-[var(--ink)]"
         >
-          <span className="block">My</span>
-          <span className="block">Gudauri</span>
+          <span className="text-[var(--ink-muted)]">my</span>
+          <span>Gudauri</span>
         </Link>
 
-        <nav className="hidden items-center gap-7 text-base text-[#1e2023] lg:flex">
+        <nav className="hidden items-center gap-10 text-[0.95rem] text-[var(--ink)] lg:flex">
           <div
             className="relative"
-            ref={sectionsMenuRef}
-            onMouseEnter={() => setIsSectionsOpen(true)}
-            onMouseLeave={() => setIsSectionsOpen(false)}
-            onFocusCapture={() => setIsSectionsOpen(true)}
+            ref={categoriesMenuRef}
+            onMouseEnter={() => setIsCategoriesOpen(true)}
+            onMouseLeave={() => setIsCategoriesOpen(false)}
+            onFocusCapture={() => setIsCategoriesOpen(true)}
             onBlurCapture={(event) => {
               const nextFocused = event.relatedTarget as Node | null;
               if (!event.currentTarget.contains(nextFocused)) {
-                setIsSectionsOpen(false);
+                setIsCategoriesOpen(false);
               }
             }}
           >
             <button
               type="button"
-              className="inline-flex items-center gap-1 hover:opacity-70"
+              className="inline-flex items-center gap-1.5 transition hover:opacity-70"
               aria-haspopup="menu"
-              aria-expanded={isSectionsOpen}
-              aria-controls="sections-menu"
+              aria-expanded={isCategoriesOpen}
+              aria-controls="categories-menu"
             >
               <span>{copy.nav.sections}</span>
               <span
-                className={`text-xs align-middle transition-transform ${
-                  isSectionsOpen ? "rotate-180" : ""
+                className={`text-[0.6rem] transition-transform ${
+                  isCategoriesOpen ? "rotate-180" : ""
                 }`}
               >
                 ▼
               </span>
             </button>
 
-            {isSectionsOpen ? (
+            {isCategoriesOpen ? (
               <div
-                id="sections-menu"
-                className="absolute left-0 top-full z-50 mt-0 min-w-64 overflow-hidden rounded-2xl border border-[var(--line)] bg-white p-2 shadow-[0_18px_45px_-22px_rgba(0,0,0,0.35)]"
+                id="categories-menu"
+                className="absolute left-1/2 top-full z-50 mt-3 min-w-72 -translate-x-1/2 overflow-hidden rounded-2xl border border-[var(--line)] bg-white p-2 shadow-[0_24px_55px_-28px_rgba(0,0,0,0.25)]"
                 role="menu"
               >
                 {sectionLinks.map((item) => {
@@ -121,12 +113,12 @@ export function SiteHeader({
                       key={item.slug}
                       href={href}
                       role="menuitem"
-                      className={`block rounded-xl px-3 py-2 text-sm transition ${
+                      className={`block rounded-xl px-4 py-2.5 text-sm transition ${
                         isActive
                           ? "bg-[var(--ink)] text-white"
                           : "text-[var(--ink)] hover:bg-[var(--bg-soft)]"
                       }`}
-                      onClick={() => setIsSectionsOpen(false)}
+                      onClick={() => setIsCategoriesOpen(false)}
                     >
                       {item.title}
                     </Link>
@@ -136,16 +128,21 @@ export function SiteHeader({
             ) : null}
           </div>
 
-          <Link href={toLocalePath(locale, "/articles")}>{copy.nav.articles}</Link>
-          <Link href={aboutHref}>{copy.nav.about}</Link>
-          <Link href={supportHref}>{copy.nav.support}</Link>
+          <Link href={toLocalePath(locale, "/articles")} className="transition hover:opacity-70">
+            {copy.nav.articles}
+          </Link>
+          <Link href={aboutHref} className="transition hover:opacity-70">
+            {copy.nav.about}
+          </Link>
+          <Link href={supportHref} className="transition hover:opacity-70">
+            {copy.nav.support}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">
-          <LanguageSwitcher locale={locale} />
           <Link
             href={supportHref}
-            className="offer-service-btn hidden rounded-xl px-4 py-2 text-sm font-semibold transition-colors lg:inline-flex"
+            className="hidden rounded-full bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-black lg:inline-flex"
           >
             {copy.nav.offerService}
           </Link>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Cormorant_Garamond } from "next/font/google";
+import { Manrope, Paytone_One } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -10,10 +10,10 @@ const manrope = Manrope({
   variable: "--font-manrope",
 });
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-cormorant",
-  weight: ["500", "600", "700"],
+const paytone = Paytone_One({
+  subsets: ["latin"],
+  variable: "--font-paytone",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={`${manrope.variable} ${cormorant.variable} antialiased`}>
+      <body className={`${manrope.variable} ${paytone.variable} antialiased`}>
         {children}
         <TrackingScripts />
         <Analytics />

@@ -1,20 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f5f8fa;
-  --bg-soft: #e9f2f5;
-  --bg-accent: #f5ebe3;
-  --ink: #14213d;
-  --ink-muted: #425466;
-  --accent: #0f8b8d;
-  --line: #d2dce3;
+  /* Design tokens from Figma — my Gudauri */
+  --gray-white: #ffffff;
+  --gray-50: #f7f7f7;
+  --gray-100: #f0f0f0;
+  --gray-300: #aaaaaa;
+  --gray-600: #2b2b2b;
+  --red-600: #eb3232;
+
+  /* Semantic aliases used across the app */
+  --bg: #ffffff;             /* page background (confirm: white or #f7f7f7) */
+  --bg-soft: var(--gray-50); /* section backgrounds (bento grid) */
+  --bg-accent: var(--gray-50);
+  --bg-card: var(--gray-white);
+  --ink: var(--gray-600);       /* primary text */
+  --ink-muted: var(--gray-300); /* secondary text */
+  --accent: var(--red-600);     /* red accent — HOT DEAL, CTAs, underlines */
+  --line: var(--gray-100);      /* borders, pill backgrounds */
 }
 
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--ink);
-  --font-sans: var(--font-manrope);
-  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-paytone), var(--font-manrope), sans-serif;
+  --font-serif: var(--font-paytone), var(--font-manrope), sans-serif;
 }
 
 * {
@@ -23,10 +33,7 @@
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at 5% -20%, rgba(15, 139, 141, 0.2), transparent 35%),
-    radial-gradient(circle at 90% 10%, rgba(229, 148, 0, 0.12), transparent 30%),
-    var(--bg);
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-manrope), sans-serif;
 }
@@ -55,11 +62,15 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-paytone), var(--font-manrope), sans-serif;
 }
 
 section {
   animation: rise 0.45s ease-out both;
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }
 
 @keyframes rise {
