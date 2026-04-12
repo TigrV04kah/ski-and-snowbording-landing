@@ -159,28 +159,22 @@ export function BookingFlow({
     const id = generateRequestId();
 
     try {
-      const res = await fetch("/api/leads", {
+      const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: state.name.trim(),
-          contact: state.phone.trim(),
-          inquiryType: "instructor",
-          entitySlug: instructorSlug,
-          message: [
-            `Request ID: ${id}`,
-            `Hours: ${state.hours}`,
-            `People: ${state.people}`,
-            `Total: $${totalPrice}`,
-            `Email: ${state.email}`,
-            `Messenger: ${state.messenger}`,
-            state.comment ? `Comment: ${state.comment}` : "",
-          ]
-            .filter(Boolean)
-            .join("\n"),
+          requestId: id,
+          instructorSlug,
+          hours: state.hours,
+          people: state.people,
+          totalPrice,
+          clientName: state.name.trim(),
+          phone: state.phone.trim(),
+          email: state.email.trim(),
+          messenger: state.messenger,
+          comment: state.comment.trim(),
           locale,
           consent: true,
-          hp_field: "",
         }),
       });
 

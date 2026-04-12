@@ -1,4 +1,5 @@
 import { articleType } from "@/sanity/schemaTypes/article";
+import { bookingRequestType } from "@/sanity/schemaTypes/bookingRequest";
 import { categoryPageType } from "@/sanity/schemaTypes/categoryPage";
 import { contactLinksType, socialLinkType } from "@/sanity/schemaTypes/common";
 import { faqItemType } from "@/sanity/schemaTypes/faqItem";
@@ -21,4 +22,5 @@ export const schemaTypes = [
   reviewType,
   siteSettingsType,
   faqItemType,
+  bookingRequestType,
 ];

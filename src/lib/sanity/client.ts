@@ -14,3 +14,16 @@ export const sanityClient = createClient({
   perspective: "published",
   stega: false,
 });
+
+const sanityApiToken = process.env.SANITY_API_TOKEN;
+
+export const sanityWriteClient =
+  sanityProjectId && sanityDataset && sanityApiToken
+    ? createClient({
+        projectId: sanityProjectId,
+        dataset: sanityDataset,
+        apiVersion: sanityApiVersion,
+        token: sanityApiToken,
+        useCdn: false,
+      })
+    : null;
