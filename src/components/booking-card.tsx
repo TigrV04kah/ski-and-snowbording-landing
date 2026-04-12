@@ -134,7 +134,7 @@ export function BookingCard({
 
       {/* CTA */}
       <Link
-        href={toLocalePath(locale, `/instructors/${instructorSlug}`)}
+        href={toLocalePath(locale, `/booking/${instructorSlug}`)}
         className="block w-full rounded-2xl bg-[var(--accent)] py-3.5 text-center text-sm font-semibold text-white transition hover:brightness-110"
       >
         {c.startBooking}
