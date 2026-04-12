@@ -2,10 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 import { FaqRow } from "@/components/faq-row";
+import { InstructorFilters } from "@/components/instructor-filters";
 import { ViewTracker } from "@/components/view-tracker";
 import { getFaqItems, getInstructors, getInstructorReviews, getSiteSettings } from "@/lib/cms";
 import { filterInstructors, toStringRecord } from "@/lib/filters";
-import { formatDiscipline, isLocale, toLocalePath } from "@/lib/i18n";
+import { formatDiscipline, formatLevel, isLocale, toLocalePath } from "@/lib/i18n";
 import { buildMetadata, hasFilterParams } from "@/lib/seo";
 import { imageUrl } from "@/lib/sanity/image";
 import { Instructor, Locale } from "@/lib/types";
@@ -302,16 +303,29 @@ export default async function InstructorsPage({
       </section>
 
       {/* FILTERS + COUNT */}
-      <section className="mt-8 flex flex-wrap items-center gap-3">
-        <span className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm text-[var(--ink)]">
-          {pageCopy.filterDiscipline} ▾
-        </span>
-        <span className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm text-[var(--ink)]">
-          {pageCopy.filterLevel} ▾
-        </span>
-        <span className="ml-auto text-sm text-[var(--ink-muted)]">
-          {pageCopy.instructorsCount(filtered.length)}
-        </span>
+      <section className="mt-8">
+        <InstructorFilters
+          filters={[
+            {
+              key: "discipline",
+              label: pageCopy.filterDiscipline,
+              options: [
+                { value: "ski", label: formatDiscipline(locale, "ski") },
+                { value: "snowboard", label: formatDiscipline(locale, "snowboard") },
+              ],
+            },
+            {
+              key: "level",
+              label: pageCopy.filterLevel,
+              options: [
+                { value: "beginner", label: formatLevel(locale, "beginner") },
+                { value: "intermediate", label: formatLevel(locale, "intermediate") },
+                { value: "advanced", label: formatLevel(locale, "advanced") },
+              ],
+            },
+          ]}
+          countLabel={pageCopy.instructorsCount(filtered.length)}
+        />
       </section>
 
       {/* INSTRUCTOR GRID */}

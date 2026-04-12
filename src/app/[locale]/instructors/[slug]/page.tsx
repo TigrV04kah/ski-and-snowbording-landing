@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { BookingCard } from "@/components/booking-card";
 import { FaqRow } from "@/components/faq-row";
 import { JsonLd } from "@/components/json-ld";
 import { ViewTracker } from "@/components/view-tracker";
@@ -317,52 +318,16 @@ export default async function InstructorProfilePage({
 
         {/* RIGHT COLUMN: Sticky booking card */}
         <div className="mt-10 lg:mt-0">
-          <div className="sticky top-24 space-y-4 rounded-3xl border border-[var(--line)] bg-white p-5">
-            <div className="flex items-center gap-3">
-              <div className="relative h-10 w-10 overflow-hidden rounded-full">
-                <Image
-                  src={imageUrl(instructor.coverImage, 80, 80)}
-                  alt={instructor.name}
-                  fill
-                  sizes="40px"
-                  className="object-cover"
-                />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-[var(--ink)]">{instructor.name}</p>
-                <p className="text-xs text-[var(--ink-muted)]">
-                  {renderStars(avg)} {avg.toFixed(1)} · {reviews.length} {c.reviews}
-                </p>
-              </div>
-            </div>
-
-            <div style={{ fontSize: "1.8rem", fontWeight: 600, letterSpacing: "-0.02em" }}>
-              <span className="text-[var(--accent)]">${price}</span>
-              <span className="text-sm font-normal text-[var(--ink-muted)]">{c.perLesson}</span>
-            </div>
-
-            <div className="rounded-xl border border-[var(--line)] px-4 py-3">
-              <p className="text-[0.7rem] text-[var(--ink-muted)]">{c.lessonHours}</p>
-              <p className="mt-0.5 text-sm font-medium text-[var(--ink)]">10</p>
-            </div>
-
-            <div className="rounded-xl border border-[var(--line)] px-4 py-3">
-              <p className="text-[0.7rem] text-[var(--ink-muted)]">{c.people}</p>
-              <p className="mt-0.5 text-sm font-medium text-[var(--ink)]">2</p>
-            </div>
-
-            <button
-              type="button"
-              className="w-full rounded-2xl bg-[var(--accent)] py-3.5 text-center text-sm font-semibold text-white transition hover:brightness-110"
-            >
-              {c.startBooking}
-            </button>
-
-            <p className="text-center text-[0.65rem] leading-relaxed text-[var(--ink-muted)]">
-              {c.hoursNote}
-              <br />
-              {c.datesNote}
-            </p>
+          <div className="sticky top-24">
+            <BookingCard
+              locale={locale}
+              instructorSlug={instructor.slug}
+              instructorName={instructor.name}
+              instructorImage={instructor.coverImage}
+              rating={avg}
+              reviewCount={reviews.length}
+              pricePerHour={price}
+            />
           </div>
         </div>
       </div>
