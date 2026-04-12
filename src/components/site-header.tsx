@@ -102,7 +102,7 @@ export function SiteHeader({
             {isCategoriesOpen ? (
               <div
                 id="categories-menu"
-                className="absolute left-1/2 top-full z-50 mt-3 min-w-72 -translate-x-1/2 overflow-hidden rounded-2xl border border-[var(--line)] bg-white p-2 shadow-[0_24px_55px_-28px_rgba(0,0,0,0.25)]"
+                className="absolute left-1/2 top-full z-50 min-w-72 -translate-x-1/2 overflow-hidden rounded-2xl border border-[var(--line)] bg-white p-2 pt-4 shadow-[0_24px_55px_-28px_rgba(0,0,0,0.25)] before:absolute before:inset-x-0 before:-top-3 before:h-3"
                 role="menu"
               >
                 {sectionLinks.map((item) => {
