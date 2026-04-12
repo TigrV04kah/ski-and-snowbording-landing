@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { t, toLocalePath } from "@/lib/i18n";
 import { Locale } from "@/lib/types";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 interface HeaderSectionLink {
   slug: string;
@@ -139,7 +140,8 @@ export function SiteHeader({
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher locale={locale} />
           <Link
             href={supportHref}
             className="hidden rounded-full bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-black lg:inline-flex"

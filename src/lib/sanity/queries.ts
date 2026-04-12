@@ -250,6 +250,7 @@ export const siteSettingsQuery = groq`
     "tagline": coalesce(tagline[$locale], tagline.ru, tagline.en),
     "description": coalesce(description[$locale], description.ru, description.en),
     partnerCtaEmail,
+    hourlyRate,
     contactPhone,
     contactTelegram,
     contactWhatsapp,

@@ -112,6 +112,7 @@ export interface SiteSettings {
   tagline: string;
   description: string;
   partnerCtaEmail: string;
+  hourlyRate?: number;
   contactPhone?: string;
   contactTelegram?: string;
   contactWhatsapp?: string;

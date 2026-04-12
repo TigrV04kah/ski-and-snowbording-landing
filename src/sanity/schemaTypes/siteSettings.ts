@@ -9,6 +9,13 @@ export const siteSettingsType = defineType({
     defineField({ name: "tagline", type: "localizedString", validation: (rule) => rule.required() }),
     defineField({ name: "description", type: "localizedText", validation: (rule) => rule.required() }),
     defineField({ name: "partnerCtaEmail", type: "string", validation: (rule) => rule.required().email() }),
+    defineField({
+      name: "hourlyRate",
+      title: "Base hourly rate ($)",
+      description: "Unified hourly rate for all instructors. Used on the catalog pricing banner.",
+      type: "number",
+      validation: (rule) => rule.min(0),
+    }),
     defineField({ name: "contactPhone", type: "string" }),
     defineField({ name: "contactTelegram", type: "url" }),
     defineField({ name: "contactWhatsapp", type: "url" }),
