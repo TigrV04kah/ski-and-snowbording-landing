@@ -58,13 +58,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
       <div className="mx-auto w-full max-w-6xl px-4 py-14 md:px-6 md:py-16">
         {/* Top row: logo on the left, brand description on the right */}
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          <p className="relative inline-flex items-baseline font-sans text-[1.9rem] leading-none tracking-[-0.04em]">
+          <p className="inline-flex items-baseline font-sans text-[1.9rem] leading-none tracking-[-0.04em]">
             <span className="text-[var(--ink-muted)]">My </span>
             <span className="text-[var(--ink)]">Gudauri</span>
-            <span
-              aria-hidden="true"
-              className="absolute -right-2 top-1 h-1.5 w-1.5 rounded-full bg-[var(--accent)]"
-            />
           </p>
 
           <p className="max-w-xs text-sm leading-6 text-[var(--ink-muted)] md:text-right">

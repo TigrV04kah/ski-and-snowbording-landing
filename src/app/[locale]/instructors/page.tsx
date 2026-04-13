@@ -23,36 +23,54 @@ const copy = {
     instructorsCount: (n: number) =>
       `${n} ${n === 1 ? "инструктор" : n < 5 ? "инструктора" : "инструкторов"}`,
     reviewLabel: "отзывов",
+    trustEyebrow: "Почему My Gudauri",
     trustTitle: "Почему выбирают My Gudauri инструкторов",
     trust: [
       {
         icon: "/home/verified-professionals.png",
         title: "Проверенные профессионалы",
-        desc: "Все инструкторы проходят проверку: квалификация, опыт и реальные отзывы.",
+        desc: "Все инструкторы проходят проверку перед добавлением на платформу.",
       },
       {
         icon: "/home/transparent-pricing.png",
         title: "Прозрачное ценообразование",
-        desc: "Единый тариф для всех инструкторов, без скрытых наценок.",
+        desc: "Единая официальная цена для всех. Без скрытых наценок.",
       },
       {
         icon: "/home/real-profiles.png",
         title: "Реальные профили",
-        desc: "Фото, отзывы и описание от самих инструкторов.",
+        desc: "Фото, языки, отзывы, стиль обучения.",
       },
       {
         icon: "/home/flexible-scheduling.png",
         title: "Гибкое расписание",
-        desc: "Выбирайте удобные дни, делите часы по дням.",
+        desc: "Распределяйте часы между днями так, как вам удобно.",
       },
     ],
+    bookingEyebrow: "5 шагов до бронирования инструктора",
     bookingTitle: "Как работает бронирование",
+    stepLabel: "Шаг",
     bookingSteps: [
-      { title: "Выберите инструктора", desc: "Изучите профили, отзывы и рейтинги." },
-      { title: "Отправьте детали урока", desc: "Укажите даты, кол-во людей и уровень." },
-      { title: "Заявка получена", desc: "Менеджер свяжется для подтверждения." },
-      { title: "Согласование расписания", desc: "Обсудите удобное время с инструктором." },
-      { title: "Безопасная оплата", desc: "Оплатите по ссылке после подтверждения." },
+      {
+        title: "Выберите инструктора",
+        desc: "Изучите профили, опыт, отзывы и языки. Найдите того, кто вам подходит и нажмите «Забронировать».",
+      },
+      {
+        title: "Отправьте детали урока",
+        desc: "Выберите удобные даты, количество часов, число участников и любые особые пожелания.",
+      },
+      {
+        title: "Заявка получена",
+        desc: "Вы увидите экран подтверждения с номером заявки. Можно не оставаться на странице — мы свяжемся.",
+      },
+      {
+        title: "Согласование расписания",
+        desc: "Менеджер свяжется через WhatsApp, чтобы уточнить доступность инструктора и финализировать детали.",
+      },
+      {
+        title: "Безопасная оплата и подтверждение",
+        desc: "Получите email с деталями заявки и защищённой ссылкой на оплату. После оплаты бронь подтверждена.",
+      },
     ],
     faqEyebrow: "Часто задаваемые вопросы",
     faqTitle: "FAQ",
@@ -67,36 +85,54 @@ const copy = {
     instructorsCount: (n: number) =>
       `${n} instructor${n !== 1 ? "s" : ""}`,
     reviewLabel: "reviews",
+    trustEyebrow: "Why My Gudauri",
     trustTitle: "Why choose My Gudauri instructors",
     trust: [
       {
         icon: "/home/verified-professionals.png",
         title: "Verified professionals",
-        desc: "All instructors are checked for qualifications, experience and real reviews.",
+        desc: "All instructors are reviewed before joining the platform.",
       },
       {
         icon: "/home/transparent-pricing.png",
         title: "Transparent pricing",
-        desc: "Single rate for every instructor, no hidden fees.",
+        desc: "Same official rate for everyone. No hidden markups.",
       },
       {
         icon: "/home/real-profiles.png",
         title: "Real profiles",
-        desc: "Photos, reviews and bios written by the instructors themselves.",
+        desc: "Photos, languages, reviews, teaching style.",
       },
       {
         icon: "/home/flexible-scheduling.png",
         title: "Flexible scheduling",
-        desc: "Pick the days that work for you, split hours across days.",
+        desc: "Split your hours across days in a way that suits you.",
       },
     ],
+    bookingEyebrow: "5 steps to book an instructor",
     bookingTitle: "How booking works",
+    stepLabel: "Step",
     bookingSteps: [
-      { title: "Choose your instructor", desc: "Browse profiles, reviews and ratings." },
-      { title: "Submit your lesson details", desc: "Pick dates, number of people and level." },
-      { title: "Request received", desc: "A manager will contact you to confirm." },
-      { title: "Schedule coordination", desc: "Arrange a convenient time with the instructor." },
-      { title: "Secure payment and confirmation", desc: "Pay via a secure link after confirmation." },
+      {
+        title: "Choose your instructor",
+        desc: "Browse profiles, experience, reviews and languages. Find the one who suits you and click Book now.",
+      },
+      {
+        title: "Submit your lesson details",
+        desc: "Choose your preferred dates, total lesson hours, number of participants and any special requests.",
+      },
+      {
+        title: "Request received",
+        desc: "You will see a confirmation screen with your booking number. There's no need to stay on the page — we take it from here.",
+      },
+      {
+        title: "Schedule coordination",
+        desc: "Our booking manager contacts you via WhatsApp to confirm the instructor's availability and finalize details.",
+      },
+      {
+        title: "Secure payment and confirmation",
+        desc: "You receive an email with your booking details and a secure payment link. Once paid, your booking is officially confirmed.",
+      },
     ],
     faqEyebrow: "Frequently Asked Questions",
     faqTitle: "FAQ",
@@ -354,28 +390,36 @@ export default async function InstructorsPage({
       </section>
 
       {/* WHY CHOOSE */}
-      <section className="mt-20 space-y-10 md:mt-24">
-        <h2
-          style={{
-            fontSize: "clamp(1.5rem, 3.5vw, 2.6rem)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.03em",
-          }}
-          className="font-sans text-[var(--ink)]"
-        >
-          {pageCopy.trustTitle}
-        </h2>
-        <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="mt-20 space-y-8 md:mt-24">
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ink-muted)]">
+            {pageCopy.trustEyebrow}
+          </p>
+          <h2
+            style={{
+              fontSize: "clamp(1.8rem, 4vw, 3rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
+            }}
+            className="font-sans text-[var(--ink)]"
+          >
+            {pageCopy.trustTitle}
+          </h2>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {pageCopy.trust.map((item) => (
-            <div key={item.title} className="space-y-3">
+            <div
+              key={item.title}
+              className="space-y-3 rounded-3xl bg-[var(--bg-soft)] p-6"
+            >
               <Image
                 src={item.icon}
                 alt={item.title}
-                width={48}
-                height={48}
-                className="h-12 w-12"
+                width={39}
+                height={39}
+                className="h-[39px] w-[39px]"
               />
-              <h3 className="text-base font-semibold text-[var(--ink)]">{item.title}</h3>
+              <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
               <p className="text-sm leading-relaxed text-[var(--ink-muted)]">{item.desc}</p>
             </div>
           ))}
@@ -383,26 +427,38 @@ export default async function InstructorsPage({
       </section>
 
       {/* HOW BOOKING WORKS */}
-      <section className="mt-20 space-y-10 md:mt-24">
-        <h2
-          style={{
-            fontSize: "clamp(1.5rem, 3.5vw, 2.6rem)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.03em",
-          }}
-          className="font-sans text-[var(--ink)]"
-        >
-          {pageCopy.bookingTitle}
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      <section className="mt-20 space-y-8 md:mt-24">
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--ink-muted)]">
+            {pageCopy.bookingEyebrow}
+          </p>
+          <h2
+            style={{
+              fontSize: "clamp(1.8rem, 4vw, 3rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
+            }}
+            className="font-sans text-[var(--ink)]"
+          >
+            {pageCopy.bookingTitle}
+          </h2>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {pageCopy.bookingSteps.map((step, i) => (
-            <div key={step.title} className="flex gap-4">
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-sm font-semibold text-white">
-                {i + 1}
-              </span>
+            <div
+              key={step.title}
+              className="space-y-4 rounded-3xl border border-[var(--line)] bg-white p-6"
+            >
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--accent)] px-3 py-1 text-xs font-semibold text-white">
+                  <span>{i + 1}</span>
+                  <span className="opacity-80">{pageCopy.stepLabel}</span>
+                </span>
+              </div>
+
               <div>
-                <h3 className="text-base font-semibold text-[var(--ink)]">{step.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-[var(--ink-muted)]">
+                <h3 className="text-lg font-semibold text-[var(--ink)]">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--ink-muted)]">
                   {step.desc}
                 </p>
               </div>
