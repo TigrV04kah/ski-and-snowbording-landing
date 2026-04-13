@@ -75,10 +75,10 @@ const categoryVisuals: Record<
     imageClassName: "object-contain object-right-bottom",
   },
   "real-estate": {
-    imageSrc: "/home/places.png",
+    imageSrc: "",
     imageAlt: "Apartment with a mountain view",
-    imageWrapperClassName: "bottom-0 right-0 h-[70%] w-[54%]",
-    imageClassName: "object-contain object-right-bottom",
+    imageWrapperClassName: "hidden",
+    imageClassName: "",
   },
 };
 
@@ -297,15 +297,17 @@ function CategoryCard({ card }: { card: HomeCategoryCard }) {
       href={card.href}
       className={`group relative min-h-[154px] overflow-hidden rounded-[1.4rem] bg-[var(--bg-card)] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.04),0_12px_32px_-20px_rgba(0,0,0,0.12)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_10px_-2px_rgba(0,0,0,0.05),0_18px_40px_-20px_rgba(0,0,0,0.18)] ${card.className}`}
     >
-      <div className={`pointer-events-none absolute ${card.imageWrapperClassName}`}>
-        <Image
-          src={card.imageSrc}
-          alt={card.imageAlt}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 35vw, 23vw"
-          className={card.imageClassName}
-        />
-      </div>
+      {card.imageSrc ? (
+        <div className={`pointer-events-none absolute ${card.imageWrapperClassName}`}>
+          <Image
+            src={card.imageSrc}
+            alt={card.imageAlt}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 35vw, 23vw"
+            className={card.imageClassName}
+          />
+        </div>
+      ) : null}
 
       <div className="relative z-10 flex h-full max-w-[58%] flex-col gap-1.5 px-4 py-4 md:px-5 md:py-4">
         <h2 className="font-sans text-[1.4rem] leading-[0.96] tracking-[-0.04em] text-[var(--ink)] md:text-[1.7rem]">

@@ -18,8 +18,13 @@ const copy = {
     subtitle: "Единый тариф для всех инструкторов",
     perHour: "/ч",
     calculateCta: "Рассчитать стоимость",
+    filtersLabel: "фильтры",
     filterDiscipline: "Направление",
     filterLevel: "Уровень",
+    filterLanguage: "Язык",
+    langRu: "Русский",
+    langEn: "Английский",
+    langKa: "Грузинский",
     instructorsCount: (n: number) =>
       `${n} ${n === 1 ? "инструктор" : n < 5 ? "инструктора" : "инструкторов"}`,
     reviewLabel: "отзывов",
@@ -80,8 +85,13 @@ const copy = {
     subtitle: "Single rate for all instructors",
     perHour: "/h",
     calculateCta: "Calculate the cost",
+    filtersLabel: "filters",
     filterDiscipline: "Discipline",
     filterLevel: "Level",
+    filterLanguage: "Language",
+    langRu: "Russian",
+    langEn: "English",
+    langKa: "Georgian",
     instructorsCount: (n: number) =>
       `${n} instructor${n !== 1 ? "s" : ""}`,
     reviewLabel: "reviews",
@@ -339,33 +349,45 @@ export default async function InstructorsPage({
       </section>
 
       {/* FILTERS + COUNT */}
-      <section className="mt-8">
-        <InstructorFilters
-          filters={[
-            {
-              key: "discipline",
-              label: pageCopy.filterDiscipline,
-              options: [
-                { value: "ski", label: formatDiscipline(locale, "ski") },
-                { value: "snowboard", label: formatDiscipline(locale, "snowboard") },
-              ],
-            },
-            {
-              key: "level",
-              label: pageCopy.filterLevel,
-              options: [
-                { value: "beginner", label: formatLevel(locale, "beginner") },
-                { value: "intermediate", label: formatLevel(locale, "intermediate") },
-                { value: "advanced", label: formatLevel(locale, "advanced") },
-              ],
-            },
-          ]}
-          countLabel={pageCopy.instructorsCount(filtered.length)}
-        />
+      <section className="relative z-40 mt-8 space-y-3">
+        <p className="text-xs text-[var(--ink-muted)]">{pageCopy.filtersLabel}</p>
+        <div className="rounded-2xl bg-[var(--bg-soft)] p-3">
+          <InstructorFilters
+            filters={[
+              {
+                key: "discipline",
+                label: pageCopy.filterDiscipline,
+                options: [
+                  { value: "ski", label: formatDiscipline(locale, "ski") },
+                  { value: "snowboard", label: formatDiscipline(locale, "snowboard") },
+                ],
+              },
+              {
+                key: "level",
+                label: pageCopy.filterLevel,
+                options: [
+                  { value: "beginner", label: formatLevel(locale, "beginner") },
+                  { value: "intermediate", label: formatLevel(locale, "intermediate") },
+                  { value: "advanced", label: formatLevel(locale, "advanced") },
+                ],
+              },
+              {
+                key: "language",
+                label: pageCopy.filterLanguage,
+                options: [
+                  { value: "ru", label: pageCopy.langRu },
+                  { value: "en", label: pageCopy.langEn },
+                  { value: "ka", label: pageCopy.langKa },
+                ],
+              },
+            ]}
+            countLabel={pageCopy.instructorsCount(filtered.length)}
+          />
+        </div>
       </section>
 
       {/* INSTRUCTOR GRID */}
-      <section className="mt-6">
+      <section className="relative z-0 mt-6">
         {filtered.length === 0 ? (
           <p className="rounded-2xl border border-[var(--line)] bg-white p-6 text-sm text-[var(--ink-muted)]">
             {pageCopy.noResults}
