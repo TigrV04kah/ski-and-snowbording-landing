@@ -106,7 +106,14 @@ export function SiteHeader({
                 role="menu"
               >
                 {sectionLinks.map((item) => {
-                  const href = toLocalePath(locale, `/categories/${item.slug}`);
+                  const dedicatedRoutes: Partial<Record<string, string>> = {
+                    instructors: "/instructors",
+                    services: "/services",
+                  };
+                  const href = toLocalePath(
+                    locale,
+                    dedicatedRoutes[item.slug] ?? `/categories/${item.slug}`,
+                  );
                   const isActive = pathname === href;
 
                   return (

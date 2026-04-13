@@ -248,11 +248,21 @@ function buildCategoryCards(locale: Locale, categoryPages: CategoryPage[]): Home
           isPublished: true,
         }));
 
+  // Special routes — bento cards that have a dedicated catalog page route
+  // override the generic /categories/[slug] route.
+  const dedicatedRoutes: Partial<Record<string, string>> = {
+    instructors: "/instructors",
+    services: "/services",
+  };
+
   return source.map((item) => ({
     key: item.id,
     title: item.title,
     description: item.description,
-    href: toLocalePath(locale, `/categories/${item.slug}`),
+    href: toLocalePath(
+      locale,
+      dedicatedRoutes[item.slug] ?? `/categories/${item.slug}`,
+    ),
     tags: item.tags,
     className: cardLayouts[item.kind],
     ...categoryVisuals[item.kind],

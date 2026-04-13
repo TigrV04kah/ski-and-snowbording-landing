@@ -117,13 +117,13 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <p className="mb-5 text-xs text-[var(--ink-muted)]">{sectionsLabel}</p>
             <div className="grid grid-cols-2 gap-x-10 gap-y-5 text-base font-semibold text-[var(--ink)]">
               <Link
-                href={toLocalePath(locale, "/categories/instructors")}
+                href={toLocalePath(locale, "/instructors")}
                 className="hover:opacity-70"
               >
                 Instructors
               </Link>
               <Link
-                href={toLocalePath(locale, "/categories/services")}
+                href={toLocalePath(locale, "/services")}
                 className="hover:opacity-70"
               >
                 Services
