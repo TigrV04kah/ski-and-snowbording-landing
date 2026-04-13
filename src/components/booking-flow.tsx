@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { imageUrl } from "@/lib/sanity/image";
 import { toLocalePath } from "@/lib/i18n";
 import { Locale } from "@/lib/types";
@@ -136,6 +136,8 @@ export function BookingFlow({
     comment: "",
     consent: false,
   });
+  const [hpField, setHpField] = useState("");
+  const formStartedAt = useRef<number>(Date.now());
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [requestId, setRequestId] = useState("");
@@ -175,6 +177,8 @@ export function BookingFlow({
           comment: state.comment.trim(),
           locale,
           consent: true,
+          hp_field: hpField,
+          formStartedAt: formStartedAt.current,
         }),
       });
 
@@ -356,6 +360,27 @@ export function BookingFlow({
               />
               {c.consent}
             </label>
+
+            {/* Honeypot — hidden field for bot detection. Real users don't fill this. */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={hpField}
+              onChange={(e) => setHpField(e.target.value)}
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                width: 1,
+                height: 1,
+                padding: 0,
+                margin: -1,
+                overflow: "hidden",
+                clip: "rect(0,0,0,0)",
+                border: 0,
+              }}
+            />
 
             <div className="flex gap-3">
               <button
